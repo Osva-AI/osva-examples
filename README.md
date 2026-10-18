@@ -26,6 +26,8 @@ pnpm install
 | [01 Minimal agent run](examples/01-minimal-agent/README.md)                 | Start an existing AgentVersion, poll with a wall-clock deadline, and report the final attempt result                        | OSVA endpoint, API key, Agent and AgentVersion IDs                                                        |
 | [02 MCP tool-enabled agent](examples/02-mcp-tool-agent/README.md)           | Register a safe MCP connector over public APIs, bind its tool to a REMOTE_HTTP agent, execute it, and inspect TOOL activity | OSVA services plus local connector/runtime reachability and private-network opt-ins for local development |
 | [03 Durable review workflow](examples/03-durable-review-workflow/README.md) | Run AGENT → AGENT → APPROVAL → EVENT WAIT → AGENT, emit the event, create Markdown, and download the artifact               | OSVA web, worker, workflow orchestrator, runtime reachability, artifact storage                           |
+| [04 SEO worker](examples/04-seo-worker/README.md)                           | Run inspect (MCP) → analyze → APPROVAL → report, produce a prioritized Markdown SEO audit from fixture-backed page data     | OSVA web, worker, workflow orchestrator, MCP + runtime reachability, artifact storage                     |
+| [05 Research analyst worker](examples/05-research-analyst-worker/README.md) | Run plan → collect (MCP) → extract → analyze → review → APPROVAL → report with evidence traceability and conflict handling  | OSVA web, worker, workflow orchestrator, MCP + runtime reachability, artifact storage                     |
 
 ## Quick start
 
@@ -35,6 +37,8 @@ Copy an example's `.env.example` to `.env`, replace placeholder values, export t
 pnpm example:01
 pnpm example:02
 pnpm example:03
+pnpm example:04
+pnpm example:05
 ```
 
 Each example README contains its exact prerequisites, environment variables, expected output shape, common failures, and cleanup steps.
