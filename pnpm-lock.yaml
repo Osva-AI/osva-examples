@@ -315,6 +315,31 @@ importers:
         specifier: 5.0.0
         version: 5.0.0(@types/node@24.13.4)(vite@8.3.4(@types/node@24.13.4))
 
+  examples/06-customer-support-worker:
+    dependencies:
+      "@osva-ai/connector-sdk":
+        specifier: 1.0.0
+        version: 1.0.0(hono@4.13.13)
+      "@osva-ai/contracts":
+        specifier: 1.0.0
+        version: 1.0.0
+      "@osva-ai/sdk":
+        specifier: 1.0.0
+        version: 1.0.0
+      "@osva-examples/utils":
+        specifier: workspace:*
+        version: link:../../packages/example-utils
+    devDependencies:
+      "@types/node":
+        specifier: 24.13.4
+        version: 24.13.4
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
+      vitest:
+        specifier: 5.0.0
+        version: 5.0.0(@types/node@24.13.4)(vite@8.3.4(@types/node@24.13.4))
+
   packages/example-utils:
     dependencies:
       "@osva-ai/contracts":
