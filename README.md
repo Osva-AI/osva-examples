@@ -29,6 +29,8 @@ pnpm install
 | [04 SEO worker](examples/04-seo-worker/README.md)                           | Run inspect (MCP) → analyze → APPROVAL → report, produce a prioritized Markdown SEO audit from fixture-backed page data        | OSVA web, worker, workflow orchestrator, MCP + runtime reachability, artifact storage                     |
 | [05 Research analyst worker](examples/05-research-analyst-worker/README.md) | Run plan → collect (MCP) → extract → analyze → review → APPROVAL → report with evidence traceability and conflict handling     | OSVA web, worker, workflow orchestrator, MCP + runtime reachability, artifact storage                     |
 | [06 Customer support worker](examples/06-customer-support-worker/README.md) | Run classify → lookup (MCP) → policy → BRANCH → approval/action/escalation → customer response with demo refunds/cancellations | OSVA web, worker, workflow orchestrator, MCP + runtime reachability                                       |
+| [07 Growth analyst worker](examples/07-growth-analyst-worker/README.md)     | Run collect metrics (MCP) → funnel analysis → opportunities → experiments → prioritize → APPROVAL → growth brief artifact      | OSVA web, worker, workflow orchestrator, MCP + runtime reachability, artifact storage                     |
+| [08 Product manager worker](examples/08-product-manager-worker/README.md)   | Run collect evidence (MCP) → cluster → prioritize → draft → review → APPROVAL → product brief artifact                         | OSVA web, worker, workflow orchestrator, MCP + runtime reachability, artifact storage                     |
 
 ## Quick start
 
@@ -41,6 +43,8 @@ pnpm example:03
 pnpm example:04
 pnpm example:05
 pnpm example:06
+pnpm example:07
+pnpm example:08
 ```
 
 Each example README contains its exact prerequisites, environment variables, expected output shape, common failures, and cleanup steps.
