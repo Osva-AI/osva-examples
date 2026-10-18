@@ -1,0 +1,26 @@
+{
+  "name": "@osva-examples/05-research-analyst-worker",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run test",
+    "start": "node dist/main.js",
+    "prebuild": "pnpm --filter @osva-examples/utils build",
+    "pretypecheck": "pnpm --filter @osva-examples/utils build",
+    "pretest": "pnpm --filter @osva-examples/utils build"
+  },
+  "dependencies": {
+    "@osva-ai/connector-sdk": "1.0.0",
+    "@osva-ai/contracts": "1.0.0",
+    "@osva-ai/sdk": "1.0.0",
+    "@osva-examples/utils": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.4",
+    "typescript": "6.0.3",
+    "vitest": "5.0.0"
+  }
+}
