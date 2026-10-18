@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  offline-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Enable pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@12.4.1 --activate
+      - name: Clean dependency install
+        run: pnpm install --no-frozen-lockfile
+      - name: Formatting
+        run: pnpm format:check
+      - name: Lint
+        run: pnpm lint
+      - name: Typecheck
+        run: pnpm typecheck
+      - name: Unit and smoke tests
+        run: |
+          pnpm test:utils
+          pnpm test:examples
+      - name: Build
+        run: pnpm build
+      - name: Documentation links
+        run: pnpm verify:docs
+      - name: Lightweight secret scan
+        run: pnpm verify:secrets
+      - name: Whitespace
+        run: pnpm verify:whitespace
