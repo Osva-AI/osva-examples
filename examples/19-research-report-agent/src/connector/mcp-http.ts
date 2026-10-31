@@ -1,4 +1,4 @@
-import http from "node:http";
+import type http from "node:http";
 
 import { createMcpHandler } from "@modelcontextprotocol/server";
 import { hostHeaderValidation, toNodeHandler } from "@modelcontextprotocol/node";
