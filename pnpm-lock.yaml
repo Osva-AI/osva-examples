@@ -627,15 +627,18 @@ importers:
 
   examples/19-research-report-agent:
     dependencies:
+      "@osva-ai/connector-npm":
+        specifier: 0.1.0
+        version: 0.1.0
       "@osva-ai/connector-sdk":
-        specifier: 1.1.2
-        version: 1.1.2
+        specifier: 1.1.3
+        version: 1.1.3
       "@osva-ai/contracts":
-        specifier: 1.1.2
-        version: 1.1.2
+        specifier: 1.1.3
+        version: 1.1.3
       "@osva-ai/sdk":
-        specifier: 1.1.2
-        version: 1.1.2
+        specifier: 1.1.3
+        version: 1.1.3
       "@osva-examples/utils":
         specifier: workspace:*
         version: link:../../packages/example-utils
@@ -806,14 +809,20 @@ packages:
       { integrity: sha512-rgR9yxSaAJ+bcsi/XroT/S2AfPiIWloXAnrdfYSCms9ivVju0ishu/wW0J21Ho6+ZOR1r7RyeRbjiRuF87ix5Q== }
     engines: { node: ">=20" }
 
+  "@osva-ai/connector-npm@0.1.0":
+    resolution:
+      { integrity: sha512-VJpko9GMIGbjJdbmah2NMw2nra1/CN974I6HkuYKB6ZCUuEGJHBHLL7oS4ELOpQdB/jd385puYvzDDneUYLPvg== }
+    engines: { node: ">=24" }
+    hasBin: true
+
   "@osva-ai/connector-sdk@1.0.0":
     resolution:
       { integrity: sha512-bX38ZjO9rXkbFKi9pa1CCku3/4qi/yS+w0vms3QJ7PpMXP7/GBA9WQakRmsLpCGvP1MfoaC1iL7+kBca8RIT7w== }
     engines: { node: ">=24" }
 
-  "@osva-ai/connector-sdk@1.1.2":
+  "@osva-ai/connector-sdk@1.1.3":
     resolution:
-      { integrity: sha512-nsy9XM6FW+e0zSXow9Zo3KRMd0VnCO2g6bViQypgRFdaocOX+YXXYLJLJoXjOSVuI5yt3KTp9jWaMGlLUmfSqA== }
+      { integrity: sha512-vl+5vM1UWqqmNEyXSrqX3tiWPsYtLu64V/vmcMi/uf92aEsb6XB0GNt4NYyYh6EnpVWBgz681AmPiilUi8x4/w== }
     engines: { node: ">=24" }
 
   "@osva-ai/contracts@1.0.0":
@@ -821,9 +830,9 @@ packages:
       { integrity: sha512-bwyWT0SDrhGgTUrz78qqLuSD8v6UolQFWZM2wGedNdflof+iFNeh10IsczfOVcIA2jo5rqzg7vRxTAHrKVu6Xw== }
     engines: { node: ">=24" }
 
-  "@osva-ai/contracts@1.1.2":
+  "@osva-ai/contracts@1.1.3":
     resolution:
-      { integrity: sha512-4KPKOibWWiO+sJouDopt9qNyeiRBZKzMhRTajYe7SrFlXmya6HsT0xvAnw2Feg/MgkhoiIcIq9hZ8yJO6zLBOg== }
+      { integrity: sha512-02MMqJQCP7COpU/WJmYROayCOiguXkX3sKNWhrxYgdg0TFOnwNv+sjv4+/xR86Y9Pe6lKbEsoE9bdNlWkX3Odw== }
     engines: { node: ">=24" }
 
   "@osva-ai/runtime-protocol@1.0.0":
@@ -831,9 +840,9 @@ packages:
       { integrity: sha512-L/GzsEvselC9BdQ0M1LGAVEGU+AnNDdPxW9q2upY7eLB8Cd7S/k7Mq2o7ijHNHaToCdSUkdws6G+incHDBWBqQ== }
     engines: { node: ">=24" }
 
-  "@osva-ai/runtime-protocol@1.1.2":
+  "@osva-ai/runtime-protocol@1.1.3":
     resolution:
-      { integrity: sha512-6Z3pN9RsThcHCcV+JNlJt0W0Wt8nfryK4+u7xR81/h+/vCHizft8UGPjw5SZ2hBmsnT7aFaz/2hY3+HJ61r4uQ== }
+      { integrity: sha512-vS1saEsZovR9uvzPk0IT9JC9b3B/nXtVpcoXysCB2oZq5YEHDruoa2OjYUHE0XSqVfV92mVGFjnGjRU/GMgUBg== }
     engines: { node: ">=24" }
 
   "@osva-ai/sdk@1.0.0":
@@ -841,9 +850,9 @@ packages:
       { integrity: sha512-txwBDW5wPedI7FVdplb616CSG54lIayRGWc9SjmetYnQVnMi51qDS5Fghh+RWa4s3Gc4Usq7ec5w9nzJKAABnA== }
     engines: { node: ">=24" }
 
-  "@osva-ai/sdk@1.1.2":
+  "@osva-ai/sdk@1.1.3":
     resolution:
-      { integrity: sha512-MAmRHY8auFsQCIbtV+qJ/lcb8/S8BpVmm/3tcwi9jrPQNfnMqd7R9YsSTvL5OLTq0PXdSzELFZiRisM8lshVDw== }
+      { integrity: sha512-Gw+o4LGQvHHp2Ay/frHtbhqRvNf4WtLsXem24iRpN31+C+OZx27Tw/iHAKYFKdg+VV1IrekZQNBh6KjucdhzjQ== }
     engines: { node: ">=24" }
 
   "@oxc-project/types@0.154.0":
@@ -1790,7 +1799,7 @@ snapshots:
 
   "@modelcontextprotocol/core@2.4.0":
     dependencies:
-      zod: 4.6.5
+      zod: 4.6.7
 
   "@modelcontextprotocol/node@2.0.0(@modelcontextprotocol/server@2.0.0)(hono@4.13.13)":
     dependencies:
@@ -1813,7 +1822,11 @@ snapshots:
   "@modelcontextprotocol/server@2.4.0":
     dependencies:
       "@modelcontextprotocol/core": 2.4.0
-      zod: 4.6.5
+      zod: 4.6.7
+
+  "@osva-ai/connector-npm@0.1.0":
+    dependencies:
+      "@osva-ai/connector-sdk": 1.1.3
 
   "@osva-ai/connector-sdk@1.0.0(hono@4.13.13)":
     dependencies:
@@ -1824,18 +1837,18 @@ snapshots:
     transitivePeerDependencies:
       - hono
 
-  "@osva-ai/connector-sdk@1.1.2":
+  "@osva-ai/connector-sdk@1.1.3":
     dependencies:
       "@modelcontextprotocol/node": 2.1.2(@modelcontextprotocol/server@2.4.0)
       "@modelcontextprotocol/server": 2.4.0
-      "@osva-ai/contracts": 1.1.2
+      "@osva-ai/contracts": 1.1.3
       zod: 4.6.7
 
   "@osva-ai/contracts@1.0.0":
     dependencies:
       zod: 4.6.5
 
-  "@osva-ai/contracts@1.1.2":
+  "@osva-ai/contracts@1.1.3":
     dependencies:
       zod: 4.6.7
 
@@ -1844,9 +1857,9 @@ snapshots:
       "@osva-ai/contracts": 1.0.0
       zod: 4.6.5
 
-  "@osva-ai/runtime-protocol@1.1.2":
+  "@osva-ai/runtime-protocol@1.1.3":
     dependencies:
-      "@osva-ai/contracts": 1.1.2
+      "@osva-ai/contracts": 1.1.3
       zod: 4.6.7
 
   "@osva-ai/sdk@1.0.0":
@@ -1855,10 +1868,10 @@ snapshots:
       "@osva-ai/runtime-protocol": 1.0.0
       zod: 4.6.5
 
-  "@osva-ai/sdk@1.1.2":
+  "@osva-ai/sdk@1.1.3":
     dependencies:
-      "@osva-ai/contracts": 1.1.2
-      "@osva-ai/runtime-protocol": 1.1.2
+      "@osva-ai/contracts": 1.1.3
+      "@osva-ai/runtime-protocol": 1.1.3
       zod: 4.6.7
 
   "@oxc-project/types@0.154.0": {}

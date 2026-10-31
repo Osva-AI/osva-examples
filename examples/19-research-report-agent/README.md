@@ -32,30 +32,43 @@ Run result + artifact reference (+ optional EvaluationRun)
 | Component                | Version |
 | ------------------------ | ------- |
 | OSVA OSS                 | `1.1.x` |
-| `@osva-ai/sdk`           | `1.1.2` |
-| `@osva-ai/contracts`     | `1.1.2` |
-| `@osva-ai/connector-sdk` | `1.1.2` |
+| `@osva-ai/sdk`           | `1.1.3` |
+| `@osva-ai/contracts`     | `1.1.3` |
+| `@osva-ai/connector-sdk` | `1.1.3` |
+| `@osva-ai/connector-npm` | `0.1.0` |
 
 The repository-wide baseline in [COMPATIBILITY.md](../../COMPATIBILITY.md) remains **1.0.0**; only this example targets 1.1.x APIs (evaluations, run observability resource, TRUSTED_TYPESCRIPT manifest).
 
-**SDK note:** `@osva-ai/sdk@1.1.2` on npm includes `evaluationSuites`, `evaluationRuns`, and `runObservability`, but not yet the M17.2 `client.modelProfiles` / `client.connectors` helpers merged on `osva/main`. This example uses `OsvaHttpClient` for `/v1/model-profiles` and `/v1/connectors` (same pattern as examples 02 and 12).
+Bootstrap uses typed SDK resources: `client.modelProfiles`, `client.connectors`, and `client.tools` (via connector import).
 
-## npm MCP connector packaging
+## npm MCP connector
 
-There is **no published npm package** for the canonical connector today. Tool names and behavior align with:
+Tool names and behavior come from the published package **`@osva-ai/connector-npm@0.1.0`** (`npm_package_metadata`, `npm_downloads`). The example does not vendor npm registry client logic.
 
-`Osva-AI/osva` → `examples/canonical-dependency-adoption/mcp/npm-connector`
+| Transport           | Package support | This example                                                                  |
+| ------------------- | --------------- | ----------------------------------------------------------------------------- |
+| **STDIO**           | Yes (primary)   | Trusted mode; optional REMOTE_HTTP via `OSVA_MCP_CONNECTOR_STDIO=true`        |
+| **Streamable HTTP** | No binary       | Thin local bridge in `src/connector/mcp-http.ts` using `createNpmConnector()` |
 
-This example vendors a **read-only copy** under `src/connector/` (~530 lines: `npm-client.ts`, `schemas.ts`, `connector.ts`, plus HTTP/STDIO entrypoints) for external reproducibility. It preserves canonical tool names, input schemas, and npm host allowlisting from the upstream connector. There is no published `@osva-ai/*` npm connector package to depend on today; **M17.4** may extract or publish one from `osva-connectors`. Until then, sync from upstream when the canonical connector changes.
+The HTTP bridge exists only for the default loopback REMOTE_HTTP demo so the OSVA worker can reach MCP over `OSVA_MCP_CONNECTOR_URL`. It reuses the published connector implementation; it is not a second copy of npm API logic.
+
+### Worker installation (STDIO)
+
+Install `@osva-ai/connector-npm@0.1.0` on the **worker host** (or set `OSVA_MCP_CONNECTOR_STDIO_COMMAND` / `OSVA_MCP_CONNECTOR_STDIO_ARGS_JSON` to a worker-reachable `node` + `stdio.js` path). The published binary is `osva-connector-npm`.
+
+STDIO MCP requires explicit OSVA worker opt-in (see OSVA docs for MCP STDIO allowlists). Do not enable private network or STDIO in production without a threat-model review.
 
 ## Runtime modes
 
-| Mode                      | When                            | Notes                                                                                                                                                                                           |
-| ------------------------- | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **REMOTE_HTTP** (default) | Local demo                      | Starts Streamable HTTP MCP + REMOTE_HTTP runtime on loopback (like examples 02 + 12).                                                                                                           |
-| **TRUSTED_TYPESCRIPT**    | `OSVA_TRUSTED_RUNTIME_ROOT` set | Copies built `dist/` into the worker trusted runtime root, registers `TRUSTED_TYPESCRIPT` manifest with `sha256:` integrity, uses **STDIO** MCP (`dist/connector/stdio.js`) on the worker host. |
+| Mode                      | Agent runtime      | MCP transport (typical)                    | Notes                                                                                       |
+| ------------------------- | ------------------ | ------------------------------------------ | ------------------------------------------------------------------------------------------- |
+| **REMOTE_HTTP** (default) | REMOTE_HTTP        | Streamable HTTP (local bridge)             | Starts loopback MCP + `/execute` runtime (like examples 02 + 12).                           |
+| **REMOTE_HTTP + STDIO**   | REMOTE_HTTP        | STDIO (worker-spawned published connector) | Set `OSVA_MCP_CONNECTOR_STDIO=true`; worker must spawn connector; no local MCP HTTP server. |
+| **TRUSTED_TYPESCRIPT**    | TRUSTED_TYPESCRIPT | STDIO (`@osva-ai/connector-npm` entry)     | `OSVA_TRUSTED_RUNTIME_ROOT` set; copies built agent into worker trusted runtime root.       |
 
-Trusted deployment requires the OSVA worker to read from the configured trusted runtime root and to spawn the documented STDIO MCP command. Run `pnpm build` and bootstrap from a host whose paths match what the **worker** can execute (absolute `node` + `dist/connector/stdio.js` in connector version config). Provider credentials remain in server/worker configuration only.
+Agent runtime and MCP transport are independent: REMOTE_HTTP execution with STDIO MCP is supported when the worker is configured for STDIO.
+
+Trusted deployment requires the OSVA worker to read from the configured trusted runtime root and to spawn the documented STDIO MCP command. Bootstrap resolves the published `stdio.js` from this example’s `node_modules` unless you override with `OSVA_MCP_CONNECTOR_STDIO_*`. Paths in connector version config must be executable **on the worker host**, not only on your laptop.
 
 ## Prerequisites
 
@@ -70,21 +83,26 @@ OSVA_MCP_CONNECTOR_ALLOW_PRIVATE_NETWORKS=true
 OSVA_REMOTE_HTTP_ALLOW_PRIVATE_NETWORKS=true
 ```
 
+For worker STDIO: documented MCP STDIO opt-in on the worker.
+
 ## Configure
 
 Copy `.env.example` and export variables in your shell (tests do not auto-load `.env`).
 
-| Variable                         | Required           | Purpose                                             |
-| -------------------------------- | ------------------ | --------------------------------------------------- |
-| `OSVA_BASE_URL`                  | Live               | OSVA API base URL                                   |
-| `OSVA_API_KEY`                   | Live               | Bearer API key                                      |
-| `OSVA_AGENT_RUNTIME_URL`         | REMOTE_HTTP live   | Worker-reachable `/execute` URL                     |
-| `OSVA_MCP_CONNECTOR_URL`         | REMOTE_HTTP live   | Worker-reachable MCP `/mcp` URL                     |
-| `OSVA_MODEL_PROFILE_VERSION_ID`  | Live (recommended) | Existing ModelProfileVersion                        |
-| `OSVA_EXAMPLE_PACKAGE_NAME`      | Optional           | Default `lodash`                                    |
-| `OSVA_EXAMPLE_INCLUDE_DOWNLOADS` | Optional           | Default `true`                                      |
-| `OSVA_RUN_EVALUATION`            | Optional           | When `true`, runs EvaluationSuite after fixture run |
-| `OSVA_TRUSTED_RUNTIME_ROOT`      | Trusted mode       | Worker trusted runtime directory                    |
+| Variable                             | Required           | Purpose                                                    |
+| ------------------------------------ | ------------------ | ---------------------------------------------------------- |
+| `OSVA_BASE_URL`                      | Live               | OSVA API base URL                                          |
+| `OSVA_API_KEY`                       | Live               | Bearer API key                                             |
+| `OSVA_AGENT_RUNTIME_URL`             | REMOTE_HTTP live   | Worker-reachable `/execute` URL                            |
+| `OSVA_MCP_CONNECTOR_URL`             | REMOTE_HTTP + HTTP | Worker-reachable MCP `/mcp` URL (default loopback demo)    |
+| `OSVA_MCP_CONNECTOR_STDIO`           | Optional           | When `true`, register STDIO MCP (worker-spawned connector) |
+| `OSVA_MCP_CONNECTOR_STDIO_COMMAND`   | Optional           | Override STDIO executable (worker-reachable)               |
+| `OSVA_MCP_CONNECTOR_STDIO_ARGS_JSON` | Optional           | JSON string array of STDIO args                            |
+| `OSVA_MODEL_PROFILE_VERSION_ID`      | Live (recommended) | Existing ModelProfileVersion                               |
+| `OSVA_EXAMPLE_PACKAGE_NAME`          | Optional           | Default `lodash`                                           |
+| `OSVA_EXAMPLE_INCLUDE_DOWNLOADS`     | Optional           | Default `true`                                             |
+| `OSVA_RUN_EVALUATION`                | Optional           | When `true`, runs EvaluationSuite after fixture run        |
+| `OSVA_TRUSTED_RUNTIME_ROOT`          | Trusted mode       | Worker trusted runtime directory                           |
 
 Never commit provider secrets. Do not pass credentials in run input, artifacts, or logs.
 
@@ -132,6 +150,7 @@ On success, the example downloads the Markdown artifact through `client.artifact
 | Symptom                                   | Likely cause                                                              |
 | ----------------------------------------- | ------------------------------------------------------------------------- |
 | MCP discovery fails                       | Worker cannot reach MCP URL, private-network policy, or wrong `/mcp` path |
+| STDIO discovery fails                     | Worker STDIO disabled, connector not installed on worker, or bad paths    |
 | MODEL step fails                          | Missing/invalid ModelProfileVersion provider credentials on deployment    |
 | `PACKAGE_NOT_FOUND` tool error            | Unknown npm package name                                                  |
 | Trusted mode fails to start               | Trusted bundle not deployed on worker host or integrity mismatch          |
@@ -139,13 +158,15 @@ On success, the example downloads the Markdown artifact through `client.artifact
 
 ## Security limitations
 
-- MCP connector allows outbound HTTPS only to official npm registry/download hosts (see `npm-client.ts`).
+- MCP tools are read-only; `@osva-ai/connector-npm` restricts outbound HTTPS to `registry.npmjs.org` and `api.npmjs.org`.
 - OSVA private-network MCP/REMOTE_HTTP access is off by default; enable only for local development.
+- STDIO MCP requires explicit worker opt-in.
 - Treat registry metadata and model output as untrusted when rendering reports.
 
 ## Limitations
 
-- Published `@osva-ai/sdk` does not yet expose typed connector/model registry clients from M17.2; REST bootstrap is intentional.
+- `@osva-ai/connector-npm@0.1.0` does not ship a Streamable HTTP server; the loopback HTTP bridge is example-local compatibility glue.
+- STDIO bootstrap paths resolved on your machine may not match the worker unless you install the connector on the worker or set `OSVA_MCP_CONNECTOR_STDIO_*`.
 - Live evaluation against real packages depends on non-deterministic model text; use the fixture package and `evaluation-fixture` run key for platform evaluation.
 - `evaluation-fixture` runs intentionally skip artifact persistence so `JSON_EXACT_MATCH` stays stable; use a normal demo run to verify ArtifactStore.
 - Registry re-import on repeated bootstrap may create additional tool versions (OSVA registry immutability).

@@ -1,20 +1,14 @@
 import { randomUUID } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 
-import type {
-  AgentId,
-  AgentVersionId,
-  ArtifactId,
-  AuthContextResourceV1,
-  RunAttemptResourceV1,
-} from "@osva-ai/contracts";
-import { OsvaClient, OsvaHttpClient } from "@osva-ai/sdk";
+import type { AgentId, AgentVersionId, ArtifactId, RunAttemptResourceV1 } from "@osva-ai/contracts";
+import { OsvaClient } from "@osva-ai/sdk";
 import { optionalPositiveIntEnv, pollWithDeadline, requireEnv } from "@osva-examples/utils";
 
 import { assertFixtureOutputMatchesEvaluation, runDeterministicEvaluation } from "./evaluation.js";
 import { buildAgentManifestForRuntime, ensureNpmConnectorAndTools } from "./bootstrap.js";
+import { buildPublishedNpmConnectorStdioTransport } from "./connector/stdio-command.js";
 import { deployTrustedResearchAgent } from "./deploy-trusted.js";
 import { resolveModelProfileVersionId } from "./model-profile.js";
 import { FIXTURE_PACKAGE_NAME } from "./bindings.js";
@@ -64,34 +58,33 @@ export async function runResearchReportExample(
   const suffix = (env.OSVA_EXAMPLE_KEY_SUFFIX?.trim() || randomUUID().slice(0, 8)).toLowerCase();
 
   const useTrusted = trustedRoot !== undefined && trustedRoot.length > 0;
+  const useStdioConnector = parseStdioConnectorOptIn(env, useTrusted);
   if (!useTrusted && (runtimeUrl === undefined || runtimeUrl.length === 0)) {
     throw new Error("Set OSVA_AGENT_RUNTIME_URL for REMOTE_HTTP mode or OSVA_TRUSTED_RUNTIME_ROOT for trusted mode.");
   }
-  if (!useTrusted && (connectorUrl === undefined || connectorUrl.length === 0)) {
-    throw new Error("Set OSVA_MCP_CONNECTOR_URL for REMOTE_HTTP mode (Streamable HTTP MCP).");
+  if (!useTrusted && !useStdioConnector && (connectorUrl === undefined || connectorUrl.length === 0)) {
+    throw new Error(
+      "Set OSVA_MCP_CONNECTOR_URL for Streamable HTTP MCP, or opt into worker STDIO with OSVA_MCP_CONNECTOR_STDIO=true.",
+    );
   }
 
-  const services = useTrusted ? undefined : await startExampleServices({ host, mcpPort, runtimePort });
+  const services = useTrusted
+    ? undefined
+    : await startExampleServices({
+        host,
+        mcpPort,
+        runtimePort,
+        includeMcp: !useStdioConnector,
+      });
   try {
     const client = new OsvaClient({ baseUrl, apiKey });
-    const http = new OsvaHttpClient({ baseUrl, apiKey });
-    const auth = await http.request<AuthContextResourceV1>({ method: "GET", path: "/v1/auth/context" });
-    const modelProfileVersionId = await resolveModelProfileVersionId(http, auth, env);
+    const auth = await client.auth.getContext();
+    const modelProfileVersionId = await resolveModelProfileVersionId(client, auth, env);
 
-    const exampleRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-    const stdioEntry = path.join(exampleRoot, "dist", "connector", "stdio.js");
-
-    const tools = await ensureNpmConnectorAndTools(http, {
+    const tools = await ensureNpmConnectorAndTools(client, {
       suffix,
       connectorUrl: connectorUrl ?? `http://${host}:${mcpPort}/mcp`,
-      ...(useTrusted
-        ? {
-            useStdio: {
-              command: process.execPath,
-              args: [stdioEntry],
-            },
-          }
-        : {}),
+      ...(useStdioConnector ? { useStdio: resolveStdioTransport(env) } : {}),
     });
 
     const trusted = useTrusted ? await deployTrustedResearchAgent(trustedRoot) : undefined;
@@ -172,6 +165,24 @@ export async function runResearchReportExample(
   } finally {
     await services?.close();
   }
+}
+
+function parseStdioConnectorOptIn(env: NodeJS.ProcessEnv, useTrusted: boolean): boolean {
+  if (useTrusted) return true;
+  return env.OSVA_MCP_CONNECTOR_STDIO?.trim().toLowerCase() === "true";
+}
+
+function resolveStdioTransport(env: NodeJS.ProcessEnv): { readonly command: string; readonly args: readonly string[] } {
+  const command = env.OSVA_MCP_CONNECTOR_STDIO_COMMAND?.trim();
+  const argsJson = env.OSVA_MCP_CONNECTOR_STDIO_ARGS_JSON?.trim();
+  if (command !== undefined && command.length > 0 && argsJson !== undefined && argsJson.length > 0) {
+    const parsed: unknown = JSON.parse(argsJson);
+    if (!Array.isArray(parsed) || !parsed.every((item) => typeof item === "string")) {
+      throw new Error("OSVA_MCP_CONNECTOR_STDIO_ARGS_JSON must be a JSON array of strings.");
+    }
+    return { command, args: parsed };
+  }
+  return buildPublishedNpmConnectorStdioTransport();
 }
 
 async function readDownloadBody(body: ReadableStream<Uint8Array> | null): Promise<Buffer> {

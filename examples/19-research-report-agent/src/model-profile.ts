@@ -1,22 +1,11 @@
-import type {
-  AuthContextResourceV1,
-  ModelProfileResourceV1,
-  ModelProfileVersionId,
-  ModelProfileVersionResourceV1,
-  ModelProvider,
-} from "@osva-ai/contracts";
+import type { ModelProfileVersionId, ModelProvider } from "@osva-ai/contracts";
 import { isModelProvider } from "@osva-ai/contracts";
-import type { OsvaHttpClient } from "@osva-ai/sdk";
+import type { OsvaClient } from "@osva-ai/sdk";
 import { requireEnv } from "@osva-examples/utils";
 
-const MODEL_PROFILES_PATH = "/v1/model-profiles";
-
-/**
- * SDK 1.1.2 does not yet expose typed `client.modelProfiles` on npm; use stable `/v1/model-profiles` routes.
- */
 export async function resolveModelProfileVersionId(
-  http: OsvaHttpClient,
-  auth: AuthContextResourceV1,
+  client: OsvaClient,
+  auth: { readonly workspaceId: string },
   env: NodeJS.ProcessEnv = process.env,
 ): Promise<ModelProfileVersionId> {
   const explicit = env.OSVA_MODEL_PROFILE_VERSION_ID?.trim();
@@ -28,20 +17,12 @@ export async function resolveModelProfileVersionId(
   const provider = parseModelProvider(env);
   const model = requireEnv("OSVA_EXAMPLE_MODEL_ID", env);
 
-  const profile = await http.request<ModelProfileResourceV1>({
-    method: "POST",
-    path: MODEL_PROFILES_PATH,
-    body: {
-      key: `examples-research-model-${suffix}`,
-      name: `Examples Research Model ${suffix}`,
-    },
+  const profile = await client.modelProfiles.create({
+    key: `examples-research-model-${suffix}`,
+    name: `Examples Research Model ${suffix}`,
   });
 
-  const version = await http.request<ModelProfileVersionResourceV1>({
-    method: "POST",
-    path: `${MODEL_PROFILES_PATH}/${encodeURIComponent(profile.id)}/versions`,
-    body: { provider, model },
-  });
+  const version = await client.modelProfiles.createVersion(profile.id, { provider, model });
 
   return version.id;
 }

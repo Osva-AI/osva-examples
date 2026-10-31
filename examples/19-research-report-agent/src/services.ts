@@ -13,28 +13,39 @@ export async function startExampleServices(options: {
   readonly host: string;
   readonly mcpPort: number;
   readonly runtimePort: number;
+  readonly includeMcp?: boolean;
 }): Promise<ExampleServices> {
-  const mcpHandler = createNpmMcpHttpHandler();
-  const mcpServer = http.createServer((request, response) => {
-    void mcpHandler.handle(request, response);
-  });
+  const includeMcp = options.includeMcp !== false;
+  const mcpHandler = includeMcp ? createNpmMcpHttpHandler() : undefined;
+  const mcpServer =
+    mcpHandler === undefined
+      ? undefined
+      : http.createServer((request, response) => {
+          void mcpHandler.handle(request, response);
+        });
   const runtimeServer = createNodeHttpServer(researchReportRuntime);
 
   try {
-    await listen(mcpServer, options.mcpPort, options.host);
+    if (mcpServer !== undefined) {
+      await listen(mcpServer, options.mcpPort, options.host);
+    }
     await listen(runtimeServer, options.runtimePort, options.host);
   } catch (error) {
     await closeServer(runtimeServer);
-    await closeServer(mcpServer);
-    await mcpHandler.close();
+    if (mcpServer !== undefined) {
+      await closeServer(mcpServer);
+      await mcpHandler?.close();
+    }
     throw error;
   }
 
   return {
     close: async () => {
       await closeServer(runtimeServer);
-      await closeServer(mcpServer);
-      await mcpHandler.close();
+      if (mcpServer !== undefined) {
+        await closeServer(mcpServer);
+        await mcpHandler?.close();
+      }
     },
   };
 }

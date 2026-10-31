@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { transportConfigMatches } from "../src/bootstrap.js";
+import { buildPublishedNpmConnectorStdioTransport } from "../src/connector/stdio-command.js";
 import { buildRemoteHttpManifest } from "../src/runtime.js";
 
 describe("bootstrap helpers", () => {
@@ -11,6 +12,13 @@ describe("bootstrap helpers", () => {
         { args: ["/tmp/stdio.js"], command: "node" },
       ),
     ).toBe(true);
+  });
+
+  it("resolves published npm connector stdio entry from node_modules", () => {
+    const transport = buildPublishedNpmConnectorStdioTransport();
+    expect(transport.command.length).toBeGreaterThan(0);
+    expect(transport.args.length).toBe(1);
+    expect(transport.args[0]).toMatch(/connector-npm[/\\]dist[/\\]stdio\.js$/);
   });
 
   it("declares model and npm tool bindings in the manifest", () => {

@@ -13,9 +13,10 @@
     "pretest": "pnpm --filter @osva-examples/utils build"
   },
   "dependencies": {
-    "@osva-ai/connector-sdk": "1.1.2",
-    "@osva-ai/contracts": "1.1.2",
-    "@osva-ai/sdk": "1.1.2",
+    "@osva-ai/connector-npm": "0.1.0",
+    "@osva-ai/connector-sdk": "1.1.3",
+    "@osva-ai/contracts": "1.1.3",
+    "@osva-ai/sdk": "1.1.3",
     "@osva-examples/utils": "workspace:*"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-import type { NormalizedNpmDownloads, NormalizedNpmPackageMetadata } from "./connector/schemas.js";
+import type { NormalizedNpmDownloads, NormalizedNpmPackageMetadata } from "@osva-ai/connector-npm";
 
 export const RESEARCH_MODEL_SYSTEM_PROMPT =
   "You are an open-source package research analyst. Using only the provided npm metadata JSON, " +
