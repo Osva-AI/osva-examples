@@ -48,6 +48,7 @@ Examples **04–11** are employee-style workflow showcases (SEO, support, growth
 | [16 Knowledge RAG agent](examples/16-knowledge-rag-agent/README.md)             | Retrieval-augmented answers via `context.knowledge.search`                     | Knowledge manifest binding + search capability              | Pre-existing `KnowledgeIndex` ID                                    |
 | [17 GitHub automation agent](examples/17-github-automation-agent/README.md)     | Classify issues, approval gate, safe writes                                    | Run + REMOTE_HTTP (fixture connector; no GitHub SDK in 1.0) | None for fixture mode                                               |
 | [18 Failure recovery](examples/18-failure-recovery/README.md)                   | `maxAttempts`, transient failures, app-level idempotency                       | Run attempts + manifest execution policy                    | Worker retry scheduling (see example README)                        |
+| [19 Research & report agent](examples/19-research-report-agent/README.md)       | npm MCP + model synthesis + Markdown artifact + evaluations (OSVA 1.1.x)       | Model profile, MCP reachability, artifact storage           | See example README (1.1.x SDK); repo baseline remains 1.0.0         |
 
 ## Quick start
 
@@ -72,6 +73,7 @@ pnpm example:15
 pnpm example:16
 pnpm example:17
 pnpm example:18
+pnpm example:19
 ```
 
 Each example README contains its exact prerequisites, environment variables, expected output shape, common failures, and cleanup steps.
