@@ -1,3 +1,8 @@
 packages:
   - "packages/*"
   - "examples/*"
+minimumReleaseAgeExclude:
+  - "@osva-ai/connector-sdk@1.1.2"
+  - "@osva-ai/contracts@1.1.2"
+  - "@osva-ai/runtime-protocol@1.1.2"
+  - "@osva-ai/sdk@1.1.2"

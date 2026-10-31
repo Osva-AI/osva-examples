@@ -625,6 +625,31 @@ importers:
         specifier: 5.0.0
         version: 5.0.0(@types/node@24.13.4)(vite@8.3.4(@types/node@24.13.4))
 
+  examples/19-research-report-agent:
+    dependencies:
+      "@osva-ai/connector-sdk":
+        specifier: 1.1.2
+        version: 1.1.2
+      "@osva-ai/contracts":
+        specifier: 1.1.2
+        version: 1.1.2
+      "@osva-ai/sdk":
+        specifier: 1.1.2
+        version: 1.1.2
+      "@osva-examples/utils":
+        specifier: workspace:*
+        version: link:../../packages/example-utils
+    devDependencies:
+      "@types/node":
+        specifier: 24.13.4
+        version: 24.13.4
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
+      vitest:
+        specifier: 5.0.0
+        version: 5.0.0(@types/node@24.13.4)(vite@8.3.4(@types/node@24.13.4))
+
   packages/example-utils:
     dependencies:
       "@osva-ai/contracts":
@@ -748,6 +773,11 @@ packages:
       { integrity: sha512-pJCEwGG7Lfr/+PQp9ZTwKXNeO5wzbfKL7H3MYpCorM4oFBoQrdjnBgEoqG+RjhsvS1FKrDbKux+M1HhlnGWqcA== }
     engines: { node: ">=20" }
 
+  "@modelcontextprotocol/core@2.4.0":
+    resolution:
+      { integrity: sha512-z8QBKqdfXLPzkLQuG4xp8hrVEMm1PZ1IgxMN2sMbJiFiAKOWXnAzogXn2W4aqIBlP1ea6U5yiqVquvUNM1Cj6Q== }
+    engines: { node: ">=20" }
+
   "@modelcontextprotocol/node@2.0.0":
     resolution:
       { integrity: sha512-Y4hAC2XdGDUdDOCbLDOCA4+aL3NUldjsOWlDL/YwpAxrPhRm1xHd7lZ+mLacvZ9t3PaH28wgNoaLQGrIk1P2pg== }
@@ -759,9 +789,21 @@ packages:
       hono:
         optional: true
 
+  "@modelcontextprotocol/node@2.1.2":
+    resolution:
+      { integrity: sha512-IIcIqBpr6NCQQs5DgJTgvbSOAw+3iaR/uquqg+e0nXCdudfjPg/80x0TseUnQx14AUAtE4fsJCEpJKPyb6WPVA== }
+    engines: { node: ">=20" }
+    peerDependencies:
+      "@modelcontextprotocol/server": ^2.4.0
+
   "@modelcontextprotocol/server@2.0.0":
     resolution:
       { integrity: sha512-YhHWdHfpFMQfd0prsEnxKeS3Qz3ytIGmsS0sth4KDjnacIT7hxk6hXHkJ9KysxlkvTM+WZAtQbbcUhdoP4Hvtw== }
+    engines: { node: ">=20" }
+
+  "@modelcontextprotocol/server@2.4.0":
+    resolution:
+      { integrity: sha512-rgR9yxSaAJ+bcsi/XroT/S2AfPiIWloXAnrdfYSCms9ivVju0ishu/wW0J21Ho6+ZOR1r7RyeRbjiRuF87ix5Q== }
     engines: { node: ">=20" }
 
   "@osva-ai/connector-sdk@1.0.0":
@@ -769,9 +811,19 @@ packages:
       { integrity: sha512-bX38ZjO9rXkbFKi9pa1CCku3/4qi/yS+w0vms3QJ7PpMXP7/GBA9WQakRmsLpCGvP1MfoaC1iL7+kBca8RIT7w== }
     engines: { node: ">=24" }
 
+  "@osva-ai/connector-sdk@1.1.2":
+    resolution:
+      { integrity: sha512-nsy9XM6FW+e0zSXow9Zo3KRMd0VnCO2g6bViQypgRFdaocOX+YXXYLJLJoXjOSVuI5yt3KTp9jWaMGlLUmfSqA== }
+    engines: { node: ">=24" }
+
   "@osva-ai/contracts@1.0.0":
     resolution:
       { integrity: sha512-bwyWT0SDrhGgTUrz78qqLuSD8v6UolQFWZM2wGedNdflof+iFNeh10IsczfOVcIA2jo5rqzg7vRxTAHrKVu6Xw== }
+    engines: { node: ">=24" }
+
+  "@osva-ai/contracts@1.1.2":
+    resolution:
+      { integrity: sha512-4KPKOibWWiO+sJouDopt9qNyeiRBZKzMhRTajYe7SrFlXmya6HsT0xvAnw2Feg/MgkhoiIcIq9hZ8yJO6zLBOg== }
     engines: { node: ">=24" }
 
   "@osva-ai/runtime-protocol@1.0.0":
@@ -779,9 +831,19 @@ packages:
       { integrity: sha512-L/GzsEvselC9BdQ0M1LGAVEGU+AnNDdPxW9q2upY7eLB8Cd7S/k7Mq2o7ijHNHaToCdSUkdws6G+incHDBWBqQ== }
     engines: { node: ">=24" }
 
+  "@osva-ai/runtime-protocol@1.1.2":
+    resolution:
+      { integrity: sha512-6Z3pN9RsThcHCcV+JNlJt0W0Wt8nfryK4+u7xR81/h+/vCHizft8UGPjw5SZ2hBmsnT7aFaz/2hY3+HJ61r4uQ== }
+    engines: { node: ">=24" }
+
   "@osva-ai/sdk@1.0.0":
     resolution:
       { integrity: sha512-txwBDW5wPedI7FVdplb616CSG54lIayRGWc9SjmetYnQVnMi51qDS5Fghh+RWa4s3Gc4Usq7ec5w9nzJKAABnA== }
+    engines: { node: ">=24" }
+
+  "@osva-ai/sdk@1.1.2":
+    resolution:
+      { integrity: sha512-MAmRHY8auFsQCIbtV+qJ/lcb8/S8BpVmm/3tcwi9jrPQNfnMqd7R9YsSTvL5OLTq0PXdSzELFZiRisM8lshVDw== }
     engines: { node: ">=24" }
 
   "@oxc-project/types@0.154.0":
@@ -1638,6 +1700,10 @@ packages:
     resolution:
       { integrity: sha512-v5l/aFXZQeai4awLbOpSoHecE9UiMrnfx75tEXLjNonXVARxQ5mOeipTjROUchszUNCqnE+hqAMujRsRHsut2Q== }
 
+  zod@4.6.7:
+    resolution:
+      { integrity: sha512-g8W2D2kU6a8untc053fX1uVBKzM7yqAxW/3zwk83+6RyF2+SKOuV+c0wBDhUwzV1PaGapmZH+rmcUzPf+3CGwg== }
+
 snapshots:
   "@cacheable/memory@2.2.0":
     dependencies:
@@ -1722,6 +1788,10 @@ snapshots:
     dependencies:
       zod: 4.6.5
 
+  "@modelcontextprotocol/core@2.4.0":
+    dependencies:
+      zod: 4.6.5
+
   "@modelcontextprotocol/node@2.0.0(@modelcontextprotocol/server@2.0.0)(hono@4.13.13)":
     dependencies:
       "@hono/node-server": 1.19.17(hono@4.13.13)
@@ -1729,9 +1799,20 @@ snapshots:
     optionalDependencies:
       hono: 4.13.13
 
+  "@modelcontextprotocol/node@2.1.2(@modelcontextprotocol/server@2.4.0)":
+    dependencies:
+      "@hono/node-server": 1.19.17(hono@4.13.13)
+      "@modelcontextprotocol/server": 2.4.0
+      hono: 4.13.13
+
   "@modelcontextprotocol/server@2.0.0":
     dependencies:
       "@modelcontextprotocol/core": 2.0.0
+      zod: 4.6.5
+
+  "@modelcontextprotocol/server@2.4.0":
+    dependencies:
+      "@modelcontextprotocol/core": 2.4.0
       zod: 4.6.5
 
   "@osva-ai/connector-sdk@1.0.0(hono@4.13.13)":
@@ -1743,20 +1824,42 @@ snapshots:
     transitivePeerDependencies:
       - hono
 
+  "@osva-ai/connector-sdk@1.1.2":
+    dependencies:
+      "@modelcontextprotocol/node": 2.1.2(@modelcontextprotocol/server@2.4.0)
+      "@modelcontextprotocol/server": 2.4.0
+      "@osva-ai/contracts": 1.1.2
+      zod: 4.6.7
+
   "@osva-ai/contracts@1.0.0":
     dependencies:
       zod: 4.6.5
+
+  "@osva-ai/contracts@1.1.2":
+    dependencies:
+      zod: 4.6.7
 
   "@osva-ai/runtime-protocol@1.0.0":
     dependencies:
       "@osva-ai/contracts": 1.0.0
       zod: 4.6.5
 
+  "@osva-ai/runtime-protocol@1.1.2":
+    dependencies:
+      "@osva-ai/contracts": 1.1.2
+      zod: 4.6.7
+
   "@osva-ai/sdk@1.0.0":
     dependencies:
       "@osva-ai/contracts": 1.0.0
       "@osva-ai/runtime-protocol": 1.0.0
       zod: 4.6.5
+
+  "@osva-ai/sdk@1.1.2":
+    dependencies:
+      "@osva-ai/contracts": 1.1.2
+      "@osva-ai/runtime-protocol": 1.1.2
+      zod: 4.6.7
 
   "@oxc-project/types@0.154.0": {}
 
@@ -2345,3 +2448,5 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   zod@4.6.5: {}
+
+  zod@4.6.7: {}
