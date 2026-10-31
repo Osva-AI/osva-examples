@@ -627,6 +627,12 @@ importers:
 
   examples/19-research-report-agent:
     dependencies:
+      "@modelcontextprotocol/node":
+        specifier: 2.1.2
+        version: 2.1.2(@modelcontextprotocol/server@2.4.0)
+      "@modelcontextprotocol/server":
+        specifier: 2.4.0
+        version: 2.4.0
       "@osva-ai/connector-npm":
         specifier: 0.1.0
         version: 0.1.0
