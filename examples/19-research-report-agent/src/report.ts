@@ -1,4 +1,4 @@
-import type { NormalizedNpmDownloads, NormalizedNpmPackageMetadata } from "./connector/schemas.js";
+import type { NormalizedNpmDownloads, NormalizedNpmPackageMetadata } from "@osva-ai/connector-npm";
 
 export interface ResearchSynthesis {
   readonly findings: readonly string[];

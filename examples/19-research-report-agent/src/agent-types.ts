@@ -2,7 +2,7 @@ import type { JsonObject, JsonValue } from "@osva-ai/contracts";
 import type { GenerateTextInput } from "@osva-ai/contracts";
 import { isJsonRecord } from "@osva-examples/utils";
 
-import type { NormalizedNpmDownloads, NormalizedNpmPackageMetadata } from "./connector/schemas.js";
+import type { NormalizedNpmDownloads, NormalizedNpmPackageMetadata } from "@osva-ai/connector-npm";
 import type { ResearchSynthesis } from "./report.js";
 
 export interface ResearchReportInput {

@@ -1,12 +1,5 @@
-import type {
-  ConnectorResourceV1,
-  ConnectorVersionResourceV1,
-  DiscoverConnectorToolsResponseV1,
-  ImportMcpToolsResponseV1,
-  ModelProfileVersionId,
-  ToolVersionId,
-} from "@osva-ai/contracts";
-import type { OsvaHttpClient } from "@osva-ai/sdk";
+import type { ModelProfileVersionId, ToolVersionId } from "@osva-ai/contracts";
+import type { OsvaClient } from "@osva-ai/sdk";
 
 import type { DeployedTrustedAgent } from "./deploy-trusted.js";
 import { buildRemoteHttpManifest, buildTrustedTypeScriptManifest } from "./runtime.js";
@@ -21,47 +14,38 @@ export interface ImportedNpmTools {
 }
 
 export async function ensureNpmConnectorAndTools(
-  http: OsvaHttpClient,
+  client: OsvaClient,
   options: {
     readonly suffix: string;
     readonly connectorUrl: string;
     readonly useStdio?: { readonly command: string; readonly args: readonly string[] };
   },
 ): Promise<ImportedNpmTools> {
+  const list = await client.connectors.list();
   const connector =
-    (await findConnectorByKey(http, CONNECTOR_KEY)) ??
-    (await http.request<ConnectorResourceV1>({
-      method: "POST",
-      path: "/v1/connectors",
-      body: {
-        key: CONNECTOR_KEY,
-        name: "Examples npm Research Connector",
-        description: "Read-only npm metadata connector for osva-examples/19-research-report-agent.",
-      },
+    list.connectors.find((item) => item.key === CONNECTOR_KEY) ??
+    (await client.connectors.create({
+      key: CONNECTOR_KEY,
+      name: "Examples npm Research Connector",
+      description: "Read-only npm metadata via @osva-ai/connector-npm for osva-examples/19-research-report-agent.",
     }));
 
   const transport = options.useStdio ? ("STDIO" as const) : ("STREAMABLE_HTTP" as const);
   const transportConfig = options.useStdio ? options.useStdio : { endpointUrl: options.connectorUrl };
 
-  const existingVersion = await findMatchingConnectorVersion(http, connector.id, transport, transportConfig);
+  const versions = await client.connectors.listVersions(connector.id);
   const connectorVersion =
-    existingVersion ??
-    (await http.request<ConnectorVersionResourceV1>({
-      method: "POST",
-      path: `/v1/connectors/${encodeURIComponent(connector.id)}/versions`,
-      body: {
-        kind: "MCP",
-        transport,
-        transportConfig,
-      },
+    versions.versions.find((version) => {
+      if (version.transport !== transport) return false;
+      return transportConfigMatches(version.transportConfig, transportConfig);
+    }) ??
+    (await client.connectors.createVersion(connector.id, {
+      kind: "MCP",
+      transport,
+      transportConfig: toMutableTransportConfig(transportConfig),
     }));
 
-  const discovery = await http.request<DiscoverConnectorToolsResponseV1>({
-    method: "POST",
-    path:
-      `/v1/connectors/${encodeURIComponent(connector.id)}/versions/` +
-      `${encodeURIComponent(connectorVersion.id)}/discover`,
-  });
+  const discovery = await client.connectors.discover(connector.id, connectorVersion.id);
 
   const metadataTool = discovery.tools.find((tool) => tool.remoteToolName === "npm_package_metadata");
   const downloadsTool = discovery.tools.find((tool) => tool.remoteToolName === "npm_downloads");
@@ -69,24 +53,20 @@ export async function ensureNpmConnectorAndTools(
     throw new Error("MCP discovery did not return npm_package_metadata and npm_downloads.");
   }
 
-  const imported = await http.request<ImportMcpToolsResponseV1>({
-    method: "POST",
-    path: "/v1/connectors/import-mcp-tools",
-    body: {
-      connectorVersionId: connectorVersion.id,
-      tools: [
-        {
-          remoteToolName: metadataTool.remoteToolName,
-          toolKey: `examples-npm-metadata-${options.suffix}`,
-          toolName: `Examples npm metadata ${options.suffix}`,
-        },
-        {
-          remoteToolName: downloadsTool.remoteToolName,
-          toolKey: `examples-npm-downloads-${options.suffix}`,
-          toolName: `Examples npm downloads ${options.suffix}`,
-        },
-      ],
-    },
+  const imported = await client.connectors.importMcpTools({
+    connectorVersionId: connectorVersion.id,
+    tools: [
+      {
+        remoteToolName: metadataTool.remoteToolName,
+        toolKey: `examples-npm-metadata-${options.suffix}`,
+        toolName: `Examples npm metadata ${options.suffix}`,
+      },
+      {
+        remoteToolName: downloadsTool.remoteToolName,
+        toolKey: `examples-npm-downloads-${options.suffix}`,
+        toolName: `Examples npm downloads ${options.suffix}`,
+      },
+    ],
   });
 
   const metadataImported = imported.imported.find((item) => item.remoteToolName === "npm_package_metadata");
@@ -130,34 +110,21 @@ export function buildAgentManifestForRuntime(options: {
   return buildRemoteHttpManifest(options.runtimeUrl, options.modelProfileVersionId, toolVersionIds);
 }
 
-async function findConnectorByKey(http: OsvaHttpClient, key: string): Promise<ConnectorResourceV1 | undefined> {
-  const list = await http.request<{ items: ConnectorResourceV1[] }>({ method: "GET", path: "/v1/connectors" });
-  return list.items.find((item) => item.key === key);
-}
-
-async function findMatchingConnectorVersion(
-  http: OsvaHttpClient,
-  connectorId: string,
-  transport: "STDIO" | "STREAMABLE_HTTP",
-  transportConfig: Record<string, unknown> | { readonly command: string; readonly args: readonly string[] },
-): Promise<ConnectorVersionResourceV1 | undefined> {
-  const list = await http.request<{ items: ConnectorVersionResourceV1[] }>({
-    method: "GET",
-    path: `/v1/connectors/${encodeURIComponent(connectorId)}/versions`,
-  });
-
-  return list.items.find((version) => {
-    if (version.transport !== transport) return false;
-    return transportConfigMatches(version.transportConfig, transportConfig);
-  });
-}
-
 export function transportConfigMatches(left: unknown, right: unknown): boolean {
   return stableJson(left) === stableJson(right);
 }
 
 function stableJson(value: unknown): string {
   return JSON.stringify(sortJson(value));
+}
+
+function toMutableTransportConfig(
+  transportConfig: { readonly endpointUrl: string } | { readonly command: string; readonly args: readonly string[] },
+): { endpointUrl: string } | { command: string; args: string[] } {
+  if ("endpointUrl" in transportConfig) {
+    return { endpointUrl: transportConfig.endpointUrl };
+  }
+  return { command: transportConfig.command, args: [...transportConfig.args] };
 }
 
 function sortJson(value: unknown): unknown {

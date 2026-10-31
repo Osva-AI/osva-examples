@@ -1,8 +1,14 @@
 import { describe, expect, it } from "vitest";
 
-import { normalizeDownloadsDocument, normalizeRegistryDocument } from "../src/connector/npm-client.js";
+import { createNpmConnector, normalizeDownloadsDocument, normalizeRegistryDocument } from "@osva-ai/connector-npm";
 
-describe("npm connector normalization (offline fixtures)", () => {
+describe("published @osva-ai/connector-npm (offline)", () => {
+  it("exposes npm_package_metadata and npm_downloads tools", () => {
+    const connector = createNpmConnector();
+    const names = connector.tools.map((tool) => tool.name);
+    expect(names).toEqual(["npm_package_metadata", "npm_downloads"]);
+  });
+
   it("normalizes registry documents", () => {
     const metadata = normalizeRegistryDocument("lodash", {
       name: "lodash",
