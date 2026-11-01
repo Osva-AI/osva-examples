@@ -79,7 +79,7 @@ export async function runResearchReportExample(
   try {
     const client = new OsvaClient({ baseUrl, apiKey });
     const auth = await client.auth.getContext();
-    const modelProfileVersionId = await resolveModelProfileVersionId(client, auth, env);
+    const modelProfileVersionId = await resolveModelProfileVersionId(client, suffix, env);
 
     const tools = await ensureNpmConnectorAndTools(client, {
       suffix,

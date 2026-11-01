@@ -5,7 +5,7 @@ import { requireEnv } from "@osva-examples/utils";
 
 export async function resolveModelProfileVersionId(
   client: OsvaClient,
-  auth: { readonly workspaceId: string },
+  suffix: string,
   env: NodeJS.ProcessEnv = process.env,
 ): Promise<ModelProfileVersionId> {
   const explicit = env.OSVA_MODEL_PROFILE_VERSION_ID?.trim();
@@ -13,7 +13,6 @@ export async function resolveModelProfileVersionId(
     return explicit as ModelProfileVersionId;
   }
 
-  const suffix = (env.OSVA_EXAMPLE_KEY_SUFFIX?.trim() || auth.workspaceId.slice(-8)).toLowerCase();
   const provider = parseModelProvider(env);
   const model = requireEnv("OSVA_EXAMPLE_MODEL_ID", env);
 
