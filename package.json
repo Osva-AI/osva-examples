@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@osva-ai/sdk": "1.1.4",
-    "@types/node": "24.13.4",
+    "@types/node": "26.6.6",
     "eslint": "10.10.0",
     "prettier": "3.9.6",
     "typescript": "6.0.3",
