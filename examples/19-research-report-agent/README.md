@@ -37,7 +37,7 @@ Run result + artifact reference (+ optional EvaluationRun)
 | `@osva-ai/connector-sdk` | `1.1.4` |
 | `@osva-ai/connector-npm` | `0.1.0` |
 
-The repository-wide baseline in [COMPATIBILITY.md](../../COMPATIBILITY.md) remains **1.0.0**; only this example targets 1.1.x APIs (evaluations, run observability resource, TRUSTED_TYPESCRIPT manifest).
+Examples **01–18** stay on the legacy **1.0.0** track in [COMPATIBILITY.md](../../COMPATIBILITY.md); **this example** is the verified **1.1.x** track (evaluations, run observability resource, TRUSTED_TYPESCRIPT manifest). See [docs/MIGRATION_1_0_TO_1_1.md](../../docs/MIGRATION_1_0_TO_1_1.md).
 
 Bootstrap uses typed SDK resources: `client.modelProfiles`, `client.connectors`, and `client.tools` (via connector import).
 

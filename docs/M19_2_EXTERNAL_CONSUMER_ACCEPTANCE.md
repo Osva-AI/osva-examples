@@ -13,7 +13,7 @@ This complements platform-level M17.8/M17.9 evidence; it does not replace operat
 | `@osva-ai/sdk`, `@osva-ai/contracts`, `@osva-ai/connector-sdk`, `@osva-ai/connector-npm` | npm (pinned in example `package.json`)   | Same pins at **1.1.4** / **0.1.0** via generated `package.json`                       |
 | `@osva-examples/utils`                                                                   | `packages/example-utils` (`workspace:*`) | Vendored copy under `src/_osva-example-utils/` at materialize time; imports rewritten |
 
-Examples **01–18** remain on the repository **1.0.0** baseline in [COMPATIBILITY.md](../COMPATIBILITY.md). Only Example 19 targets OSVA **1.1.x** packages.
+Examples **01–18** remain on the repository **legacy 1.0.0** track; Example 19 is the **1.1.x** track. See the version matrix and upgrade policy in [COMPATIBILITY.md](../COMPATIBILITY.md) and [MIGRATION_1_0_TO_1_1.md](MIGRATION_1_0_TO_1_1.md).
 
 ## Harness location
 
