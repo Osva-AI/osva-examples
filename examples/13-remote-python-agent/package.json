@@ -21,6 +21,6 @@
     "@osva-ai/runtime-protocol": "1.0.0",
     "@types/node": "24.13.4",
     "typescript": "6.0.3",
-    "vitest": "5.0.0"
+    "vitest": "5.0.5"
   }
 }
