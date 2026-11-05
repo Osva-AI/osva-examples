@@ -37,10 +37,12 @@
     "verify:docs": "node scripts/verify-doc-links.mjs",
     "verify:secrets": "node scripts/verify-secrets.mjs",
     "verify:whitespace": "node scripts/verify-whitespace.mjs",
+    "verify:compatibility": "node scripts/verify-compatibility-matrix.mjs",
     "acceptance:m19-2-install": "node scripts/acceptance/m19-2-external-consumer/run.mjs --mode installation",
     "acceptance:m19-2-live": "node scripts/acceptance/m19-2-external-consumer/run.mjs --mode live",
     "test:acceptance:m19-2": "node --test scripts/acceptance/m19-2-external-consumer/test/*.test.mjs",
-    "verify": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test:utils && pnpm test:examples && pnpm build && pnpm verify:docs && pnpm verify:secrets && pnpm verify:whitespace"
+    "test:compatibility": "node --test scripts/test/verify-compatibility-matrix.test.mjs",
+    "verify": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test:utils && pnpm test:examples && pnpm build && pnpm verify:compatibility && pnpm verify:docs && pnpm verify:secrets && pnpm verify:whitespace"
   },
   "devDependencies": {
     "@osva-ai/sdk": "1.1.4",

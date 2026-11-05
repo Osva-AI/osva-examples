@@ -2,13 +2,15 @@
 
 `osva-examples` is a public, external-consumer repository for learning, evaluating, and adopting [OSVA](https://github.com/Osva-AI/osva). It is deliberately separate from the primary platform repository and uses released public packages and authenticated public APIs only.
 
-The current compatibility baseline is **OSVA OSS 1.0.0**. See [COMPATIBILITY.md](COMPATIBILITY.md).
+This repository documents **two compatibility tracks**: Examples **01–18** target OSVA OSS **1.0.0** npm packages; Example **19** targets OSVA **1.1.x** (`@osva-ai/*` **1.1.4**). See [COMPATIBILITY.md](COMPATIBILITY.md) and [docs/MIGRATION_1_0_TO_1_1.md](docs/MIGRATION_1_0_TO_1_1.md).
+
+**New to OSVA 1.1.x or npm-only consumption?** Start with [Example 19](examples/19-research-report-agent/README.md) and the [M19.2 external-consumer harness](docs/M19_2_EXTERNAL_CONSUMER_ACCEPTANCE.md). **On OSVA 1.0.0?** Start with [Example 01](examples/01-minimal-agent/README.md).
 
 ## Prerequisites
 
 - Node.js 24 or newer
 - pnpm 12.4.1
-- A compatible OSVA OSS 1.0 deployment for live runs
+- A compatible OSVA deployment for live runs (**1.0.0** for Examples 01–18; **1.1.x** for Example 19)
 - An OSVA API key created through the supported bootstrap/API-key flow
 
 Install dependencies:
