@@ -56,7 +56,9 @@ Migrating from 1.0.0 examples to 1.1.x: see [docs/MIGRATION_1_0_TO_1_1.md](docs/
 | 18      | `18-failure-recovery`          | Legacy    | 1.0.0          | 1.0.0                | —                        | —                           | —                        |
 | 19      | `19-research-report-agent`     | **1.1.x** | **1.1.4**      | **1.1.4**            | **1.1.4**                | —                           | **0.1.0**                |
 
-Published npm versions verified for the 1.1.x track (registry, 2026-11): `@osva-ai/sdk` **1.0.0** through **1.1.4**; `@osva-ai/connector-npm` **0.1.0**.
+Published npm versions verified for the 1.1.x track (registry, **2026-11-06**): `@osva-ai/sdk` / `contracts` / `connector-sdk` **`1.1.4`** (`latest`); `@osva-ai/connector-npm` **`0.1.0`**–**`0.1.1`** (Example **19** still pins **`0.1.0`** by M19.4 policy — **`0.1.1`** is the M19 registry realignment line with **`connector-sdk@1.1.4`**).
+
+M19 ecosystem closeout (platform **1.1.1**, live registry acceptance **`m17-114`**, **38/38 PASS**): [Osva-AI/osva `M19_CLOSEOUT_SUMMARY.md`](https://github.com/Osva-AI/osva/blob/main/docs/operations/M19_CLOSEOUT_SUMMARY.md).
 
 ## Feature requirements (legacy track)
 
@@ -67,7 +69,7 @@ Published npm versions verified for the 1.1.x track (registry, 2026-11): `@osva-
 ## Feature requirements (1.1.x track — Example 19)
 
 - OSVA **1.1.x** web + worker with model gateway, connector registry, artifact storage, and (optional) evaluation APIs.
-- Published **`@osva-ai/connector-npm@0.1.0`** for npm MCP tools (STDIO on worker; optional local Streamable HTTP bridge for loopback demos).
+- Published **`@osva-ai/connector-npm@0.1.0`** (repo pin) or **`@0.1.1`** (registry realignment with SDK **1.1.4**) for npm MCP tools (STDIO on worker; optional local Streamable HTTP bridge for loopback demos).
 - Agent manifest kinds including **TRUSTED_TYPESCRIPT** when using trusted runtime mode.
 - Typed SDK: `client.modelProfiles`, `client.connectors`, `client.tools` (via connector import), evaluations, and run observability helpers used in Example 19.
 
