@@ -32,9 +32,9 @@ Run result + artifact reference (+ optional EvaluationRun)
 | Component                | Version |
 | ------------------------ | ------- |
 | OSVA OSS                 | `1.1.x` |
-| `@osva-ai/sdk`           | `1.1.3` |
-| `@osva-ai/contracts`     | `1.1.3` |
-| `@osva-ai/connector-sdk` | `1.1.3` |
+| `@osva-ai/sdk`           | `1.1.4` |
+| `@osva-ai/contracts`     | `1.1.4` |
+| `@osva-ai/connector-sdk` | `1.1.4` |
 | `@osva-ai/connector-npm` | `0.1.0` |
 
 The repository-wide baseline in [COMPATIBILITY.md](../../COMPATIBILITY.md) remains **1.0.0**; only this example targets 1.1.x APIs (evaluations, run observability resource, TRUSTED_TYPESCRIPT manifest).
@@ -105,6 +105,20 @@ Copy `.env.example` and export variables in your shell (tests do not auto-load `
 | `OSVA_TRUSTED_RUNTIME_ROOT`          | Trusted mode       | Worker trusted runtime directory                           |
 
 Never commit provider secrets. Do not pass credentials in run input, artifacts, or logs.
+
+## M19.2 external-consumer acceptance
+
+The repository ships a harness that materializes a **standalone** copy of this example (no `workspace:*` utils), installs published npm packages, builds, and runs deterministic tests. Optional live mode executes a real demo run against OSVA **1.1.1**.
+
+```bash
+pnpm acceptance:m19-2-install
+# Live (requires OSVA_BASE_URL, OSVA_API_KEY, worker-reachable runtime/MCP URLs, model profile):
+pnpm acceptance:m19-2-live
+```
+
+JSON evidence is written to `artifacts/acceptance/m19-2/` (gitignored). See [M19.2 acceptance summary](../../docs/M19_2_EXTERNAL_CONSUMER_ACCEPTANCE.md) and [harness README](../../scripts/acceptance/m19-2-external-consumer/README.md). PowerShell: set `$env:OSVA_BASE_URL = "..."` before `pnpm acceptance:m19-2-live`.
+
+Installation mode **does not** execute a live agent run; live checks remain `NOT_RUN`.
 
 ## Run
 

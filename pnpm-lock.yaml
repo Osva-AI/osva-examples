@@ -177,6 +177,9 @@ settings:
 importers:
   .:
     devDependencies:
+      "@osva-ai/sdk":
+        specifier: 1.1.4
+        version: 1.1.4
       "@types/node":
         specifier: 24.13.4
         version: 24.13.4
@@ -637,14 +640,14 @@ importers:
         specifier: 0.1.0
         version: 0.1.0
       "@osva-ai/connector-sdk":
-        specifier: 1.1.3
-        version: 1.1.3
+        specifier: 1.1.4
+        version: 1.1.4
       "@osva-ai/contracts":
-        specifier: 1.1.3
-        version: 1.1.3
+        specifier: 1.1.4
+        version: 1.1.4
       "@osva-ai/sdk":
-        specifier: 1.1.3
-        version: 1.1.3
+        specifier: 1.1.4
+        version: 1.1.4
       "@osva-examples/utils":
         specifier: workspace:*
         version: link:../../packages/example-utils
@@ -831,6 +834,11 @@ packages:
       { integrity: sha512-vl+5vM1UWqqmNEyXSrqX3tiWPsYtLu64V/vmcMi/uf92aEsb6XB0GNt4NYyYh6EnpVWBgz681AmPiilUi8x4/w== }
     engines: { node: ">=24" }
 
+  "@osva-ai/connector-sdk@1.1.4":
+    resolution:
+      { integrity: sha512-P+R76pvjzTPLDY6fktva3YqzjWxv+QLyzwj0PLqqdhKcmJcn0a+trpcDT/rIGnUwWt0SOnQhnU8aeMYMBPF4cA== }
+    engines: { node: ">=24" }
+
   "@osva-ai/contracts@1.0.0":
     resolution:
       { integrity: sha512-bwyWT0SDrhGgTUrz78qqLuSD8v6UolQFWZM2wGedNdflof+iFNeh10IsczfOVcIA2jo5rqzg7vRxTAHrKVu6Xw== }
@@ -841,14 +849,19 @@ packages:
       { integrity: sha512-02MMqJQCP7COpU/WJmYROayCOiguXkX3sKNWhrxYgdg0TFOnwNv+sjv4+/xR86Y9Pe6lKbEsoE9bdNlWkX3Odw== }
     engines: { node: ">=24" }
 
+  "@osva-ai/contracts@1.1.4":
+    resolution:
+      { integrity: sha512-lJJGY7sTapKv+m6+OKgKKxTjSncBBc2lMmBViDvqvh0Pi2w9Sc/MUkJEMM1mYHhS1q3T+XyrKer6tHTzPRskpg== }
+    engines: { node: ">=24" }
+
   "@osva-ai/runtime-protocol@1.0.0":
     resolution:
       { integrity: sha512-L/GzsEvselC9BdQ0M1LGAVEGU+AnNDdPxW9q2upY7eLB8Cd7S/k7Mq2o7ijHNHaToCdSUkdws6G+incHDBWBqQ== }
     engines: { node: ">=24" }
 
-  "@osva-ai/runtime-protocol@1.1.3":
+  "@osva-ai/runtime-protocol@1.1.4":
     resolution:
-      { integrity: sha512-vS1saEsZovR9uvzPk0IT9JC9b3B/nXtVpcoXysCB2oZq5YEHDruoa2OjYUHE0XSqVfV92mVGFjnGjRU/GMgUBg== }
+      { integrity: sha512-ZmdBGT6qQyNx/CtQNeHxFqHkgy68Mdf/7Rs0ct3TbtzmFN2JHxh7D0gP6uOaEumhSyaPOtwtGb3rOot9wmsgsg== }
     engines: { node: ">=24" }
 
   "@osva-ai/sdk@1.0.0":
@@ -856,9 +869,9 @@ packages:
       { integrity: sha512-txwBDW5wPedI7FVdplb616CSG54lIayRGWc9SjmetYnQVnMi51qDS5Fghh+RWa4s3Gc4Usq7ec5w9nzJKAABnA== }
     engines: { node: ">=24" }
 
-  "@osva-ai/sdk@1.1.3":
+  "@osva-ai/sdk@1.1.4":
     resolution:
-      { integrity: sha512-Gw+o4LGQvHHp2Ay/frHtbhqRvNf4WtLsXem24iRpN31+C+OZx27Tw/iHAKYFKdg+VV1IrekZQNBh6KjucdhzjQ== }
+      { integrity: sha512-zwZ1APAEi9mvxKzQZXda+//DXplSBv7pEI7teSkAPhbrpwgzW9odhggujPh9lyOU7/+iJXpILKHQh0fjcfVPYg== }
     engines: { node: ">=24" }
 
   "@oxc-project/types@0.154.0":
@@ -1850,6 +1863,13 @@ snapshots:
       "@osva-ai/contracts": 1.1.3
       zod: 4.6.7
 
+  "@osva-ai/connector-sdk@1.1.4":
+    dependencies:
+      "@modelcontextprotocol/node": 2.1.2(@modelcontextprotocol/server@2.4.0)
+      "@modelcontextprotocol/server": 2.4.0
+      "@osva-ai/contracts": 1.1.4
+      zod: 4.6.7
+
   "@osva-ai/contracts@1.0.0":
     dependencies:
       zod: 4.6.5
@@ -1858,14 +1878,18 @@ snapshots:
     dependencies:
       zod: 4.6.7
 
+  "@osva-ai/contracts@1.1.4":
+    dependencies:
+      zod: 4.6.7
+
   "@osva-ai/runtime-protocol@1.0.0":
     dependencies:
       "@osva-ai/contracts": 1.0.0
       zod: 4.6.5
 
-  "@osva-ai/runtime-protocol@1.1.3":
+  "@osva-ai/runtime-protocol@1.1.4":
     dependencies:
-      "@osva-ai/contracts": 1.1.3
+      "@osva-ai/contracts": 1.1.4
       zod: 4.6.7
 
   "@osva-ai/sdk@1.0.0":
@@ -1874,10 +1898,10 @@ snapshots:
       "@osva-ai/runtime-protocol": 1.0.0
       zod: 4.6.5
 
-  "@osva-ai/sdk@1.1.3":
+  "@osva-ai/sdk@1.1.4":
     dependencies:
-      "@osva-ai/contracts": 1.1.3
-      "@osva-ai/runtime-protocol": 1.1.3
+      "@osva-ai/contracts": 1.1.4
+      "@osva-ai/runtime-protocol": 1.1.4
       zod: 4.6.7
 
   "@oxc-project/types@0.154.0": {}
