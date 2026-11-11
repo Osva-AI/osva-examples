@@ -35,7 +35,7 @@ Run result + artifact reference (+ optional EvaluationRun)
 | `@osva-ai/sdk`           | `1.1.4` |
 | `@osva-ai/contracts`     | `1.1.4` |
 | `@osva-ai/connector-sdk` | `1.1.4` |
-| `@osva-ai/connector-npm` | `0.1.0` |
+| `@osva-ai/connector-npm` | `0.1.1` |
 
 Examples **01–18** stay on the legacy **1.0.0** track in [COMPATIBILITY.md](../../COMPATIBILITY.md); **this example** is the verified **1.1.x** track (evaluations, run observability resource, TRUSTED_TYPESCRIPT manifest). See [docs/MIGRATION_1_0_TO_1_1.md](../../docs/MIGRATION_1_0_TO_1_1.md).
 
@@ -43,7 +43,7 @@ Bootstrap uses typed SDK resources: `client.modelProfiles`, `client.connectors`,
 
 ## npm MCP connector
 
-Tool names and behavior come from the published package **`@osva-ai/connector-npm@0.1.0`** (`npm_package_metadata`, `npm_downloads`). The example does not vendor npm registry client logic.
+Tool names and behavior come from the published package **`@osva-ai/connector-npm@0.1.1`** (`npm_package_metadata`, `npm_downloads`). The example does not vendor npm registry client logic.
 
 | Transport           | Package support | This example                                                                  |
 | ------------------- | --------------- | ----------------------------------------------------------------------------- |
@@ -54,7 +54,7 @@ The HTTP bridge exists only for the default loopback REMOTE_HTTP demo so the OSV
 
 ### Worker installation (STDIO)
 
-Install `@osva-ai/connector-npm@0.1.0` on the **worker host** (or set `OSVA_MCP_CONNECTOR_STDIO_COMMAND` / `OSVA_MCP_CONNECTOR_STDIO_ARGS_JSON` to a worker-reachable `node` + `stdio.js` path). The published binary is `osva-connector-npm`.
+Install `@osva-ai/connector-npm@0.1.1` on the **worker host** (or set `OSVA_MCP_CONNECTOR_STDIO_COMMAND` / `OSVA_MCP_CONNECTOR_STDIO_ARGS_JSON` to a worker-reachable `node` + `stdio.js` path). The published binary is `osva-connector-npm`.
 
 STDIO MCP requires explicit OSVA worker opt-in (see OSVA docs for MCP STDIO allowlists). Do not enable private network or STDIO in production without a threat-model review.
 
@@ -179,7 +179,7 @@ On success, the example downloads the Markdown artifact through `client.artifact
 
 ## Limitations
 
-- `@osva-ai/connector-npm@0.1.0` does not ship a Streamable HTTP server; the loopback HTTP bridge is example-local compatibility glue.
+- `@osva-ai/connector-npm@0.1.1` does not ship a Streamable HTTP server; the loopback HTTP bridge is example-local compatibility glue.
 - STDIO bootstrap paths resolved on your machine may not match the worker unless you install the connector on the worker or set `OSVA_MCP_CONNECTOR_STDIO_*`.
 - Live evaluation against real packages depends on non-deterministic model text; use the fixture package and `evaluation-fixture` run key for platform evaluation.
 - `evaluation-fixture` runs intentionally skip artifact persistence so `JSON_EXACT_MATCH` stays stable; use a normal demo run to verify ArtifactStore.

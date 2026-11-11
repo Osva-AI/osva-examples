@@ -20,7 +20,7 @@ Example **19** remains the **M19.2 golden path** for published-package installat
 | `@osva-ai/contracts`        | `1.0.0`              | `1.1.4`          |
 | `@osva-ai/connector-sdk`    | `1.0.0` (where used) | `1.1.4`          |
 | `@osva-ai/runtime-protocol` | `1.0.0` (13–14)      | —                |
-| `@osva-ai/connector-npm`    | —                    | `0.1.0`          |
+| `@osva-ai/connector-npm`    | —                    | `0.1.1`          |
 
 All listed versions are published on the public npm registry.
 
@@ -57,7 +57,7 @@ Set `OSVA_MODEL_PROFILE_VERSION_ID` from the Product Console when you do not wan
 
 ### Published npm MCP connector
 
-- **`@osva-ai/connector-npm@0.1.0`** supplies `npm_package_metadata` and `npm_downloads` for STDIO MCP on the worker.
+- **`@osva-ai/connector-npm@0.1.1`** supplies `npm_package_metadata` and `npm_downloads` for STDIO MCP on the worker.
 - Streamable HTTP is **not** shipped in that package; Example 19’s `mcp-http.ts` bridge is demo-only for loopback REMOTE_HTTP.
 
 ## Worker and networking (unchanged themes)

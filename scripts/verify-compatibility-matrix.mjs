@@ -15,12 +15,32 @@ const LEGACY_SDK_DEPS = {
 };
 
 /** @type {Record<string, string>} */
-const EXAMPLE_19_DEPS = {
+const EXAMPLE_11X_CORE = {
   "@osva-ai/sdk": "1.1.4",
   "@osva-ai/contracts": "1.1.4",
   "@osva-ai/connector-sdk": "1.1.4",
-  "@osva-ai/connector-npm": "0.1.0",
 };
+
+/** @type {Record<string, string>} */
+const EXAMPLE_19_DEPS = {
+  ...EXAMPLE_11X_CORE,
+  "@osva-ai/connector-npm": "0.1.1",
+};
+
+/** @type {Record<string, string>} */
+const EXAMPLE_20_DEPS = {
+  ...EXAMPLE_11X_CORE,
+  "@osva-ai/connector-github": "0.4.0",
+};
+
+/** @type {Record<string, string>} */
+const EXAMPLE_21_DEPS = {
+  ...EXAMPLE_11X_CORE,
+  "@osva-ai/connector-shopify": "0.1.1",
+  "@osva-ai/connector-ga4": "0.1.1",
+};
+
+const B6_2_CONSTANTS = path.join(ROOT, "scripts", "acceptance", "b6-2-published-connector", "lib", "constants.mjs");
 
 /** Expected optional legacy deps by example folder prefix (01-minimal-agent, …). */
 const LEGACY_OPTIONAL = {
@@ -92,6 +112,15 @@ function assertLegacyExample(folderName, deps) {
   if (deps["@osva-ai/connector-npm"] !== undefined) {
     failures.push(`${folderName}: legacy examples must not use @osva-ai/connector-npm`);
   }
+  if (deps["@osva-ai/connector-github"] !== undefined) {
+    failures.push(`${folderName}: legacy examples must not use @osva-ai/connector-github`);
+  }
+  if (deps["@osva-ai/connector-shopify"] !== undefined) {
+    failures.push(`${folderName}: legacy examples must not use @osva-ai/connector-shopify`);
+  }
+  if (deps["@osva-ai/connector-ga4"] !== undefined) {
+    failures.push(`${folderName}: legacy examples must not use @osva-ai/connector-ga4`);
+  }
 }
 
 const exampleDirs = (await readdir(EXAMPLES_DIR, { withFileTypes: true }))
@@ -99,8 +128,8 @@ const exampleDirs = (await readdir(EXAMPLES_DIR, { withFileTypes: true }))
   .map((e) => e.name)
   .sort();
 
-if (exampleDirs.length !== 19) {
-  failures.push(`expected 19 numbered example directories, found ${exampleDirs.length}`);
+if (exampleDirs.length !== 21) {
+  failures.push(`expected 21 numbered example directories, found ${exampleDirs.length}`);
 }
 
 for (const folder of exampleDirs) {
@@ -112,6 +141,20 @@ for (const folder of exampleDirs) {
     assertDeps(folder, deps, EXAMPLE_19_DEPS);
     for (const name of Object.keys(deps)) {
       if (name.startsWith("@osva-ai/") && EXAMPLE_19_DEPS[name] === undefined) {
+        failures.push(`${folder}: unexpected OSVA dependency ${name}@${deps[name]}`);
+      }
+    }
+  } else if (folder === "20-github-repository-analyst") {
+    assertDeps(folder, deps, EXAMPLE_20_DEPS);
+    for (const name of Object.keys(deps)) {
+      if (name.startsWith("@osva-ai/") && EXAMPLE_20_DEPS[name] === undefined) {
+        failures.push(`${folder}: unexpected OSVA dependency ${name}@${deps[name]}`);
+      }
+    }
+  } else if (folder === "21-commerce-growth-analyst") {
+    assertDeps(folder, deps, EXAMPLE_21_DEPS);
+    for (const name of Object.keys(deps)) {
+      if (name.startsWith("@osva-ai/") && EXAMPLE_21_DEPS[name] === undefined) {
         failures.push(`${folder}: unexpected OSVA dependency ${name}@${deps[name]}`);
       }
     }
@@ -134,11 +177,18 @@ for (const [pkg, version] of Object.entries(EXAMPLE_19_DEPS)) {
   }
 }
 
+const b62ConstantsSrc = await readFile(B6_2_CONSTANTS, "utf8");
+for (const [pkg, version] of Object.entries({ ...EXAMPLE_20_DEPS, ...EXAMPLE_21_DEPS })) {
+  if (!b62ConstantsSrc.includes(`"${pkg}": "${version}"`)) {
+    failures.push(`B6.2 constants.mjs missing pin ${pkg}@${version}`);
+  }
+}
+
 if (failures.length > 0) {
   process.stderr.write(`Compatibility matrix verification failed:\n${failures.map((f) => `- ${f}`).join("\n")}\n`);
   process.exitCode = 1;
 } else {
   process.stdout.write(
-    `Compatibility matrix verification passed (${exampleDirs.length} examples, legacy 01–18 @ 1.0.0, example 19 @ 1.1.4).\n`,
+    `Compatibility matrix verification passed (${exampleDirs.length} examples, legacy 01–18 @ 1.0.0, examples 19–21 @ 1.1.4).\n`,
   );
 }
