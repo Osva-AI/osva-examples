@@ -8,3 +8,5 @@ minimumReleaseAgeExclude:
   - "@osva-ai/sdk@1.1.2 || 1.1.3"
   - "@osva-ai/connector-npm@0.1.1"
   - "@osva-ai/connector-github@0.4.0"
+  - "@osva-ai/connector-shopify@0.1.1"
+  - "@osva-ai/connector-ga4@0.1.1"

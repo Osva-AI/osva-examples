@@ -4,7 +4,7 @@
 
 **OSVA 1.1.x** agent that produces a **read-only repository intelligence brief** using the published GitHub MCP connector:
 
-1. Accepts `owner`, `repo`, and bounded issue sampling parameters.
+1. Accepts `owner`, `repo`, bounded issue sampling parameters, and optional `focusIssueNumber` (read-only `github.issue.get` enrichment).
 2. Registers **STDIO** MCP for `@osva-ai/connector-github@0.4.0`.
 3. Discovers MCP tools and imports **only** `github.repository.get`, `github.issue.list`, and `github.issue.get`.
 4. Binds imported `ToolVersion`s on an `AgentVersion` (no model binding; deterministic analysis).

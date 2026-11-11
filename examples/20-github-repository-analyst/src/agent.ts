@@ -1,9 +1,9 @@
-import type { IssueListOutput } from "@osva-ai/connector-github";
-import type { RepositoryGetOutput } from "@osva-ai/connector-github";
+import type { IssueListOutput, NormalizedIssue, RepositoryGetOutput } from "@osva-ai/connector-github";
 import { ISSUE_LIST_MAX_PER_PAGE } from "@osva-ai/connector-github";
 
 import {
   FIXTURE_RUN_KEY,
+  TOOL_BINDING_ISSUE_GET,
   TOOL_BINDING_ISSUE_LIST,
   TOOL_BINDING_REPOSITORY_GET,
   toolIdempotencyKey,
@@ -11,7 +11,7 @@ import {
 import { buildRepositoryBrief, buildSamplingMetadata } from "./analysis.js";
 import { buildDeterministicFixtureBrief, isFixtureRepository } from "./fixtures.js";
 import { parseRepositoryAnalystInput } from "./input.js";
-import { normalizeIssueRecord, normalizeRepositoryRecord } from "./normalize.js";
+import { normalizeIssueRecord, normalizeRepositoryRecord, sanitizeUntrustedIssueTitle } from "./normalize.js";
 import type { RepositoryAnalystStructuredOutput, TrustedRepositoryAnalystContext } from "./agent-types.js";
 
 export async function runRepositoryAnalystAgent(
@@ -77,11 +77,40 @@ export async function runRepositoryAnalystAgent(
     hasMoreOnProvider,
   });
 
-  const brief = buildRepositoryBrief({
+  let brief = buildRepositoryBrief({
     repository,
     issues: collected,
     sampling,
   });
+
+  if (request.focusIssueNumber !== undefined) {
+    const issueRaw = (await context.tools.invoke(
+      TOOL_BINDING_ISSUE_GET,
+      { owner: request.owner, repo: request.repo, issueNumber: request.focusIssueNumber },
+      { idempotencyKey: toolIdempotencyKey(request.runKey, TOOL_BINDING_ISSUE_GET) },
+    )) as NormalizedIssue;
+    const focusIssue = normalizeIssueRecord(issueRaw);
+    brief = {
+      ...brief,
+      evidence: [
+        ...brief.evidence,
+        {
+          id: `issue:focus:${focusIssue.number}`,
+          kind: "issue",
+          detail: `Focus issue #${focusIssue.number} state=${focusIssue.state} title="${sanitizeUntrustedIssueTitle(focusIssue.title)}"`,
+        },
+      ],
+      recommendations: [
+        ...brief.recommendations,
+        {
+          id: "rec-focus-issue-review",
+          action: `Review focus issue #${focusIssue.number} in context of the sampled issue window.`,
+          rationale: "Optional read-only github.issue.get enrichment for a specific issue number.",
+          evidenceIds: [`issue:focus:${focusIssue.number}`],
+        },
+      ],
+    };
+  }
 
   return {
     ...brief,

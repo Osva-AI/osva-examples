@@ -2,7 +2,7 @@
 
 `osva-examples` is a public, external-consumer repository for learning, evaluating, and adopting [OSVA](https://github.com/Osva-AI/osva). It is deliberately separate from the primary platform repository and uses released public packages and authenticated public APIs only.
 
-This repository documents **two compatibility tracks**: Examples **01–18** target OSVA OSS **1.0.0** npm packages; Examples **19–20** target OSVA **1.1.x** (`@osva-ai/*` **1.1.4** + published connectors). See [COMPATIBILITY.md](COMPATIBILITY.md) and [docs/MIGRATION_1_0_TO_1_1.md](docs/MIGRATION_1_0_TO_1_1.md).
+This repository documents **two compatibility tracks**: Examples **01–18** target OSVA OSS **1.0.0** npm packages; Examples **19–21** target OSVA **1.1.x** (`@osva-ai/*` **1.1.4** + published connectors). See [COMPATIBILITY.md](COMPATIBILITY.md) and [docs/MIGRATION_1_0_TO_1_1.md](docs/MIGRATION_1_0_TO_1_1.md).
 
 **New to OSVA 1.1.x or npm-only consumption?** Start with [Example 19](examples/19-research-report-agent/README.md) and the [M19.2 external-consumer harness](docs/M19_2_EXTERNAL_CONSUMER_ACCEPTANCE.md). For published GitHub MCP (read-only), see [Example 20](examples/20-github-repository-analyst/README.md). **On OSVA 1.0.0?** Start with [Example 01](examples/01-minimal-agent/README.md).
 
@@ -41,17 +41,18 @@ Examples **04–11** are employee-style workflow showcases (SEO, support, growth
 
 ### Technical collection (12–18)
 
-| Example                                                                         | Learning goal                                                                  | OSVA 1.0 primitive                                            | Live prerequisites                                                  |
-| ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------- | ------------------------------------------------------------------- |
-| [12 Model-powered agent](examples/12-model-powered-agent/README.md)             | Bind a model profile and call `context.models.generateText()` from REMOTE_HTTP | Model capability + manifest model binding                     | Model profile version ID (env or HTTP discovery)                    |
-| [13 Remote Python agent](examples/13-remote-python-agent/README.md)             | Non-TypeScript runtime implementing Runtime Protocol V1                        | REMOTE_HTTP + protocol parity                                 | Python 3 on PATH, worker reachability                               |
-| [14 Parallel research agents](examples/14-parallel-research-agents/README.md)   | Workflow V3 `PARALLEL` / `JOIN` with branch traceability                       | Workflow orchestration                                        | Workflow orchestrator, multiple runtimes                            |
-| [15 Scheduled reporting agent](examples/15-scheduled-reporting-agent/README.md) | Register cron schedules and produce scheduled Markdown reports                 | `client.schedules.create`                                     | Scheduler enabled; schedules default **disabled** in `.env.example` |
-| [16 Knowledge RAG agent](examples/16-knowledge-rag-agent/README.md)             | Retrieval-augmented answers via `context.knowledge.search`                     | Knowledge manifest binding + search capability                | Pre-existing `KnowledgeIndex` ID                                    |
-| [17 GitHub automation agent](examples/17-github-automation-agent/README.md)     | Classify issues, approval gate, safe writes                                    | Run + REMOTE_HTTP (fixture connector; no GitHub SDK in 1.0)   | None for fixture mode                                               |
-| [18 Failure recovery](examples/18-failure-recovery/README.md)                   | `maxAttempts`, transient failures, app-level idempotency                       | Run attempts + manifest execution policy                      | Worker retry scheduling (see example README)                        |
-| [19 Research & report agent](examples/19-research-report-agent/README.md)       | npm MCP + model synthesis + Markdown artifact + evaluations (OSVA 1.1.x)       | Model profile, MCP reachability, artifact storage             | See example README (1.1.x SDK); repo baseline remains 1.0.0         |
-| [20 GitHub repository analyst](examples/20-github-repository-analyst/README.md) | Published GitHub MCP (read-only) + deterministic repository brief (OSVA 1.1.x) | Worker STDIO MCP, GitHub token on worker, REMOTE_HTTP runtime | See example README; no GitHub writes                                |
+| Example                                                                         | Learning goal                                                                  | OSVA 1.0 primitive                                            | Live prerequisites                                                   |
+| ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------- | -------------------------------------------------------------------- |
+| [12 Model-powered agent](examples/12-model-powered-agent/README.md)             | Bind a model profile and call `context.models.generateText()` from REMOTE_HTTP | Model capability + manifest model binding                     | Model profile version ID (env or HTTP discovery)                     |
+| [13 Remote Python agent](examples/13-remote-python-agent/README.md)             | Non-TypeScript runtime implementing Runtime Protocol V1                        | REMOTE_HTTP + protocol parity                                 | Python 3 on PATH, worker reachability                                |
+| [14 Parallel research agents](examples/14-parallel-research-agents/README.md)   | Workflow V3 `PARALLEL` / `JOIN` with branch traceability                       | Workflow orchestration                                        | Workflow orchestrator, multiple runtimes                             |
+| [15 Scheduled reporting agent](examples/15-scheduled-reporting-agent/README.md) | Register cron schedules and produce scheduled Markdown reports                 | `client.schedules.create`                                     | Scheduler enabled; schedules default **disabled** in `.env.example`  |
+| [16 Knowledge RAG agent](examples/16-knowledge-rag-agent/README.md)             | Retrieval-augmented answers via `context.knowledge.search`                     | Knowledge manifest binding + search capability                | Pre-existing `KnowledgeIndex` ID                                     |
+| [17 GitHub automation agent](examples/17-github-automation-agent/README.md)     | Classify issues, approval gate, safe writes                                    | Run + REMOTE_HTTP (fixture connector; no GitHub SDK in 1.0)   | None for fixture mode                                                |
+| [18 Failure recovery](examples/18-failure-recovery/README.md)                   | `maxAttempts`, transient failures, app-level idempotency                       | Run attempts + manifest execution policy                      | Worker retry scheduling (see example README)                         |
+| [19 Research & report agent](examples/19-research-report-agent/README.md)       | npm MCP + model synthesis + Markdown artifact + evaluations (OSVA 1.1.x)       | Model profile, MCP reachability, artifact storage             | See example README (1.1.x SDK); repo baseline remains 1.0.0          |
+| [20 GitHub repository analyst](examples/20-github-repository-analyst/README.md) | Published GitHub MCP (read-only) + deterministic repository brief (OSVA 1.1.x) | Worker STDIO MCP, GitHub token on worker, REMOTE_HTTP runtime | See example README; no GitHub writes                                 |
+| [21 Commerce & growth analyst](examples/21-commerce-growth-analyst/README.md)   | Dual published MCP (Shopify + GA4) + deterministic commerce brief (OSVA 1.1.x) | Two worker STDIO MCP processes, provider secrets on worker    | See example README; read-only tools; no cross-provider revenue merge |
 
 ## Quick start
 
@@ -78,6 +79,7 @@ pnpm example:17
 pnpm example:18
 pnpm example:19
 pnpm example:20
+pnpm example:21
 ```
 
 Each example README contains its exact prerequisites, environment variables, expected output shape, common failures, and cleanup steps.

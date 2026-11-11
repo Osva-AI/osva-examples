@@ -13,6 +13,7 @@ export interface RepositoryAnalystInput {
   readonly maxIssueSampleSize: number;
   readonly issueState: IssueStateFilter;
   readonly issuePageLimit: number;
+  readonly focusIssueNumber?: number;
   readonly runKey: string;
 }
 
@@ -38,10 +39,27 @@ export function parseRepositoryAnalystInput(input: JsonValue): RepositoryAnalyst
     ISSUE_LIST_MAX_PAGE,
     false,
   );
+  const focusIssueNumber = parseOptionalIssueNumber(input["focusIssueNumber"]);
   const runKeyRaw = input["runKey"];
   const runKey = typeof runKeyRaw === "string" && runKeyRaw.trim().length > 0 ? runKeyRaw.trim() : `${owner}/${repo}`;
 
-  return { owner, repo, maxIssueSampleSize, issueState, issuePageLimit, runKey };
+  return {
+    owner,
+    repo,
+    maxIssueSampleSize,
+    issueState,
+    issuePageLimit,
+    ...(focusIssueNumber === undefined ? {} : { focusIssueNumber }),
+    runKey,
+  };
+}
+
+function parseOptionalIssueNumber(value: unknown): number | undefined {
+  if (value === undefined) return undefined;
+  if (typeof value !== "number" || !Number.isInteger(value) || value < 1 || value > 1_000_000) {
+    throw new Error("Optional 'focusIssueNumber' must be a positive integer.");
+  }
+  return value;
 }
 
 function parseGithubSlug(value: unknown, field: string): string {
