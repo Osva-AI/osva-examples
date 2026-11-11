@@ -46,7 +46,7 @@ If prerequisites are missing, the report status is **`PENDING`** with honest `NO
 | `@osva-ai/sdk`           | `1.1.4` |
 | `@osva-ai/contracts`     | `1.1.4` |
 | `@osva-ai/connector-sdk` | `1.1.4` |
-| `@osva-ai/connector-npm` | `0.1.0` |
+| `@osva-ai/connector-npm` | `0.1.1` |
 
 Platform target for live mode: **OSVA 1.1.1**.
 

@@ -3,7 +3,7 @@ export const CONSUMER_PACKAGE_VERSIONS = {
   "@osva-ai/sdk": "1.1.4",
   "@osva-ai/contracts": "1.1.4",
   "@osva-ai/connector-sdk": "1.1.4",
-  "@osva-ai/connector-npm": "0.1.0",
+  "@osva-ai/connector-npm": "0.1.1",
   "@modelcontextprotocol/node": "2.1.2",
   "@modelcontextprotocol/server": "2.4.0",
 };

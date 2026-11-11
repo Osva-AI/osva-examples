@@ -2,12 +2,12 @@
 
 This repository ships **two documented dependency tracks**. They target different OSVA platform lines and are verified independently.
 
-| Track                | OSVA platform                                     | npm packages                                                                                                 | Examples    | Verification                                                                                     |
-| -------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ----------- | ------------------------------------------------------------------------------------------------ |
-| **Legacy (default)** | **1.0.0** OSS                                     | `@osva-ai/*` **1.0.0** (see matrix)                                                                          | **01–18**   | Root `pnpm verify` (typecheck, hermetic tests, build)                                            |
-| **1.1.x consumer**   | **1.1.x** OSS (live acceptance targets **1.1.1**) | `@osva-ai/sdk`, `@osva-ai/contracts`, `@osva-ai/connector-sdk` **1.1.4**; `@osva-ai/connector-npm` **0.1.0** | **19** only | Example 19 tests + [M19.2 external-consumer harness](docs/M19_2_EXTERNAL_CONSUMER_ACCEPTANCE.md) |
+| Track                | OSVA platform                                     | npm packages                                                                                                  | Examples  | Verification                                                                                                                      |
+| -------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| **Legacy (default)** | **1.0.0** OSS                                     | `@osva-ai/*` **1.0.0** (see matrix)                                                                           | **01–18** | Root `pnpm verify` (typecheck, hermetic tests, build)                                                                             |
+| **1.1.x consumer**   | **1.1.x** OSS (live acceptance targets **1.1.1**) | `@osva-ai/sdk`, `@osva-ai/contracts`, `@osva-ai/connector-sdk` **1.1.4**; connectors per example (see matrix) | **19–20** | Example 19–20 tests; [M19.2 harness](docs/M19_2_EXTERNAL_CONSUMER_ACCEPTANCE.md) (Example 19); B6.2 pin verification (Example 20) |
 
-Do not assume Examples **01–18** work against OSVA **1.1.x** deployments without a dedicated migration and live acceptance pass. Example **19** is the supported **external-consumer golden path** for OSVA **1.1.x**.
+Do not assume Examples **01–18** work against OSVA **1.1.x** deployments without a dedicated migration and live acceptance pass. Examples **19–20** are the supported **1.1.x consumer** track for published connector integration.
 
 ## Recommended starting points
 
@@ -34,29 +34,30 @@ Migrating from 1.0.0 examples to 1.1.x: see [docs/MIGRATION_1_0_TO_1_1.md](docs/
 
 ## Example dependency matrix
 
-| Example | Folder                         | SDK track | `@osva-ai/sdk` | `@osva-ai/contracts` | `@osva-ai/connector-sdk` | `@osva-ai/runtime-protocol` | `@osva-ai/connector-npm` |
+| Example | Folder | SDK track | `@osva-ai/sdk` | `@osva-ai/contracts` | `@osva-ai/connector-sdk` | `@osva-ai/runtime-protocol` | `@osva-ai/connector-npm` | `@osva-ai/connector-github` |
 | ------- | ------------------------------ | --------- | -------------- | -------------------- | ------------------------ | --------------------------- | ------------------------ |
-| 01      | `01-minimal-agent`             | Legacy    | 1.0.0          | 1.0.0                | —                        | —                           | —                        |
-| 02      | `02-mcp-tool-agent`            | Legacy    | 1.0.0          | 1.0.0                | 1.0.0                    | —                           | —                        |
-| 03      | `03-durable-review-workflow`   | Legacy    | 1.0.0          | 1.0.0                | —                        | —                           | —                        |
-| 04      | `04-seo-worker`                | Legacy    | 1.0.0          | 1.0.0                | 1.0.0                    | —                           | —                        |
-| 05      | `05-research-analyst-worker`   | Legacy    | 1.0.0          | 1.0.0                | 1.0.0                    | —                           | —                        |
-| 06      | `06-customer-support-worker`   | Legacy    | 1.0.0          | 1.0.0                | 1.0.0                    | —                           | —                        |
-| 07      | `07-growth-analyst-worker`     | Legacy    | 1.0.0          | 1.0.0                | 1.0.0                    | —                           | —                        |
-| 08      | `08-product-manager-worker`    | Legacy    | 1.0.0          | 1.0.0                | 1.0.0                    | —                           | —                        |
-| 09      | `09-founders-office-worker`    | Legacy    | 1.0.0          | 1.0.0                | 1.0.0                    | —                           | —                        |
-| 10      | `10-incident-response-worker`  | Legacy    | 1.0.0          | 1.0.0                | 1.0.0                    | —                           | —                        |
-| 11      | `11-growth-operations-worker`  | Legacy    | 1.0.0          | 1.0.0                | 1.0.0                    | —                           | —                        |
-| 12      | `12-model-powered-agent`       | Legacy    | 1.0.0          | 1.0.0                | —                        | —                           | —                        |
-| 13      | `13-remote-python-agent`       | Legacy    | 1.0.0          | 1.0.0                | —                        | 1.0.0                       | —                        |
-| 14      | `14-parallel-research-agents`  | Legacy    | 1.0.0          | 1.0.0                | —                        | 1.0.0                       | —                        |
-| 15      | `15-scheduled-reporting-agent` | Legacy    | 1.0.0          | 1.0.0                | —                        | —                           | —                        |
-| 16      | `16-knowledge-rag-agent`       | Legacy    | 1.0.0          | 1.0.0                | —                        | —                           | —                        |
-| 17      | `17-github-automation-agent`   | Legacy    | 1.0.0          | 1.0.0                | —                        | —                           | —                        |
-| 18      | `18-failure-recovery`          | Legacy    | 1.0.0          | 1.0.0                | —                        | —                           | —                        |
-| 19      | `19-research-report-agent`     | **1.1.x** | **1.1.4**      | **1.1.4**            | **1.1.4**                | —                           | **0.1.0**                |
+| 01 | `01-minimal-agent` | Legacy | 1.0.0 | 1.0.0 | — | — | — | — |
+| 02 | `02-mcp-tool-agent` | Legacy | 1.0.0 | 1.0.0 | 1.0.0 | — | — | — |
+| 03 | `03-durable-review-workflow` | Legacy | 1.0.0 | 1.0.0 | — | — | — | — |
+| 04 | `04-seo-worker` | Legacy | 1.0.0 | 1.0.0 | 1.0.0 | — | — | — |
+| 05 | `05-research-analyst-worker` | Legacy | 1.0.0 | 1.0.0 | 1.0.0 | — | — | — |
+| 06 | `06-customer-support-worker` | Legacy | 1.0.0 | 1.0.0 | 1.0.0 | — | — | — |
+| 07 | `07-growth-analyst-worker` | Legacy | 1.0.0 | 1.0.0 | 1.0.0 | — | — | — |
+| 08 | `08-product-manager-worker` | Legacy | 1.0.0 | 1.0.0 | 1.0.0 | — | — | — |
+| 09 | `09-founders-office-worker` | Legacy | 1.0.0 | 1.0.0 | 1.0.0 | — | — | — |
+| 10 | `10-incident-response-worker` | Legacy | 1.0.0 | 1.0.0 | 1.0.0 | — | — | — |
+| 11 | `11-growth-operations-worker` | Legacy | 1.0.0 | 1.0.0 | 1.0.0 | — | — | — |
+| 12 | `12-model-powered-agent` | Legacy | 1.0.0 | 1.0.0 | — | — | — | — |
+| 13 | `13-remote-python-agent` | Legacy | 1.0.0 | 1.0.0 | — | 1.0.0 | — | — |
+| 14 | `14-parallel-research-agents` | Legacy | 1.0.0 | 1.0.0 | — | 1.0.0 | — | — |
+| 15 | `15-scheduled-reporting-agent` | Legacy | 1.0.0 | 1.0.0 | — | — | — | — |
+| 16 | `16-knowledge-rag-agent` | Legacy | 1.0.0 | 1.0.0 | — | — | — | — |
+| 17 | `17-github-automation-agent` | Legacy | 1.0.0 | 1.0.0 | — | — | — | — |
+| 18 | `18-failure-recovery` | Legacy | 1.0.0 | 1.0.0 | — | — | — | — |
+| 19 | `19-research-report-agent` | **1.1.x** | **1.1.4** | **1.1.4** | **1.1.4** | — | **0.1.1** | — |
+| 20 | `20-github-repository-analyst` | **1.1.x** | **1.1.4** | **1.1.4** | **1.1.4** | — | — | **0.4.0** |
 
-Published npm versions verified for the 1.1.x track (registry, **2026-11-06**): `@osva-ai/sdk` / `contracts` / `connector-sdk` **`1.1.4`** (`latest`); `@osva-ai/connector-npm` **`0.1.0`**–**`0.1.1`** (Example **19** still pins **`0.1.0`** by M19.4 policy — **`0.1.1`** is the M19 registry realignment line with **`connector-sdk@1.1.4`**).
+Published npm versions verified for the 1.1.x track (registry, **2026-11-12**): `@osva-ai/sdk` / `contracts` / `connector-sdk` **`1.1.4`**; `@osva-ai/connector-npm` **`0.1.1`** (Example **19**); `@osva-ai/connector-github` **`0.4.0`** (Example **20**, read-only tool bindings only).
 
 M19 ecosystem closeout (platform **1.1.1**, live registry acceptance **`m17-114`**, **38/38 PASS**): [Osva-AI/osva `M19_CLOSEOUT_SUMMARY.md`](https://github.com/Osva-AI/osva/blob/main/docs/operations/M19_CLOSEOUT_SUMMARY.md).
 
@@ -66,12 +67,13 @@ M19 ecosystem closeout (platform **1.1.1**, live registry acceptance **`m17-114`
 - Example 02 requires Connector Profile V1, MCP discovery/import, REMOTE_HTTP runtime execution, runtime Tool capability forwarding, and run-step observability.
 - Example 03 requires Workflow Definition V3, APPROVAL, durable EVENT WAIT, WorkflowEvent ingestion, REMOTE_HTTP runtime execution, and runtime artifact creation/download.
 
-## Feature requirements (1.1.x track — Example 19)
+## Feature requirements (1.1.x track — Examples 19–20)
 
-- OSVA **1.1.x** web + worker with model gateway, connector registry, artifact storage, and (optional) evaluation APIs.
-- Published **`@osva-ai/connector-npm@0.1.0`** (repo pin) or **`@0.1.1`** (registry realignment with SDK **1.1.4**) for npm MCP tools (STDIO on worker; optional local Streamable HTTP bridge for loopback demos).
+- OSVA **1.1.x** web + worker with connector registry, runtime execution, and run-step observability.
+- Example **19**: model gateway, artifact storage, (optional) evaluation APIs; **`@osva-ai/connector-npm@0.1.1`** (STDIO on worker; optional local Streamable HTTP bridge for loopback demos).
+- Example **20**: **`@osva-ai/connector-github@0.4.0`** (STDIO only; read-only MCP tool imports); deterministic analysis without model binding.
 - Agent manifest kinds including **TRUSTED_TYPESCRIPT** when using trusted runtime mode.
-- Typed SDK: `client.modelProfiles`, `client.connectors`, `client.tools` (via connector import), evaluations, and run observability helpers used in Example 19.
+- Typed SDK: `client.connectors` discovery/import, `client.agents`, `client.runs`, `client.runObservability` (Example 19 adds `client.modelProfiles` and evaluations).
 
 ## Stable 1.0 public-surface notes
 
@@ -83,11 +85,13 @@ Run-step observability records `MODEL`, `TOOL`, `MEMORY`, and `KNOWLEDGE` activi
 
 Private-network destinations are disabled by default in OSVA. Live local examples that expose an MCP connector or REMOTE_HTTP runtime to an OSVA worker require explicit operator configuration such as `OSVA_MCP_CONNECTOR_ALLOW_PRIVATE_NETWORKS=true` and/or `OSVA_REMOTE_HTTP_ALLOW_PRIVATE_NETWORKS=true`. Those are local-development opt-ins, not production defaults.
 
-## 1.1.x track notes (Example 19)
+## 1.1.x track notes (Examples 19–20)
 
-- Bootstrap prefers typed SDK connector and model-profile clients instead of raw `OsvaHttpClient` for registry setup (see Example 19 `src/bootstrap.ts`).
-- **`@osva-ai/connector-npm@0.1.0`** does not ship a Streamable HTTP server; Example 19 includes a thin local HTTP bridge for loopback REMOTE_HTTP demos only.
-- M19.2 installation acceptance uses **`npm install`** (not pnpm) and forbids monorepo `workspace:*` links in the materialized consumer; see [docs/M19_2_EXTERNAL_CONSUMER_ACCEPTANCE.md](docs/M19_2_EXTERNAL_CONSUMER_ACCEPTANCE.md).
+- Bootstrap prefers typed SDK connector clients instead of raw `OsvaHttpClient` for registry setup (see Example 19/20 `src/bootstrap.ts`).
+- **`@osva-ai/connector-npm@0.1.1`** does not ship a Streamable HTTP server; Example 19 includes a thin local HTTP bridge for loopback REMOTE_HTTP demos only.
+- **`@osva-ai/connector-github@0.4.0`** is STDIO-only; Example 20 never registers HTTP MCP for GitHub and imports only `github.repository.get`, `github.issue.list`, and `github.issue.get`.
+- M19.2 installation acceptance uses **`npm install`** (not pnpm) and forbids monorepo `workspace:*` links in the materialized Example 19 consumer; see [docs/M19_2_EXTERNAL_CONSUMER_ACCEPTANCE.md](docs/M19_2_EXTERNAL_CONSUMER_ACCEPTANCE.md).
+- B6.2A: `pnpm acceptance:b6-2-pins` validates Example 20 published dependency pins (offline).
 
 ## Upgrade policy
 
