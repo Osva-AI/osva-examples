@@ -15,7 +15,7 @@
   "dependencies": {
     "@osva-ai/connector-sdk": "1.0.0",
     "@osva-ai/contracts": "1.0.0",
-    "@osva-ai/sdk": "1.0.0",
+    "@osva-ai/sdk": "1.1.4",
     "@osva-examples/utils": "workspace:*"
   },
   "devDependencies": {
