@@ -15,7 +15,7 @@
     "test": "vitest run test"
   },
   "dependencies": {
-    "@osva-ai/contracts": "1.0.0"
+    "@osva-ai/contracts": "1.1.4"
   },
   "devDependencies": {
     "@types/node": "24.13.4",
